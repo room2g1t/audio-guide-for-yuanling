@@ -127,7 +127,7 @@ To update the background track, go to testing.js and update the url inside the s
 ~~2. Dynamic background track volume: background track volume goes up when no front tracks are playing.~~
 
 
-3. Have four buttons on the testing page to switch between 4 groups.
+~~3. Have four buttons on the testing page to switch between 4 groups.~~
 
 ~~4. Update group page UI design.~~
 
