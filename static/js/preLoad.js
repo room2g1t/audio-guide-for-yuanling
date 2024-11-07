@@ -11,15 +11,11 @@ function startPreloading() {
             "static/audio/group1/chinese/group1_track2.mp3",
             "static/audio/group1/chinese/group1_track3.mp3",
             "static/audio/group1/chinese/group1_track4.mp3",
-            "static/audio/group1/chinese/group1_track5.mp3",
-            "static/audio/group1/chinese/group1_track6.mp3",
             // english
             "static/audio/group1/english/group1_track1.mp3",
             "static/audio/group1/english/group1_track2.mp3",
             "static/audio/group1/english/group1_track3.mp3",
             "static/audio/group1/english/group1_track4.mp3",
-            "static/audio/group1/english/group1_track5.mp3",
-            "static/audio/group1/english/group1_track6.mp3",
             // add more below...
 
             // group 2
@@ -28,32 +24,20 @@ function startPreloading() {
             "static/audio/group2/chinese/group2_track2.mp3",
             "static/audio/group2/chinese/group2_track3.mp3",
             "static/audio/group2/chinese/group2_track4.mp3",
-            "static/audio/group2/chinese/group2_track5.mp3",
-            "static/audio/group2/chinese/group2_track6.mp3",
             // english
             "static/audio/group2/english/group2_track1.mp3",
             "static/audio/group2/english/group2_track2.mp3",
             "static/audio/group2/english/group2_track3.mp3",
             "static/audio/group2/english/group2_track4.mp3",
-            "static/audio/group2/english/group2_track5.mp3",
-            "static/audio/group2/english/group2_track6.mp3",
             // add more below...
 
             // group 3
             // chinese
             "static/audio/group3/chinese/group3_track1.mp3",
             "static/audio/group3/chinese/group3_track2.mp3",
-            "static/audio/group3/chinese/group3_track3.mp3",
-            "static/audio/group3/chinese/group3_track4.mp3",
-            "static/audio/group3/chinese/group3_track5.mp3",
-            "static/audio/group3/chinese/group3_track6.mp3",
             // english
             "static/audio/group3/english/group3_track1.mp3",
             "static/audio/group3/english/group3_track2.mp3",
-            "static/audio/group3/english/group3_track3.mp3",
-            "static/audio/group3/english/group3_track4.mp3",
-            "static/audio/group3/english/group3_track5.mp3",
-            "static/audio/group3/english/group3_track6.mp3",
             // add more below...
 
             // group 4
@@ -74,10 +58,10 @@ function startPreloading() {
             // add more below...
 
             // background track
-            "static/audio/group1/group1_background1.mp3",
-            "static/audio/group2/group2_background2.mp3",
-            "static/audio/group3/group3_background3.mp3",
-            "static/audio/group4/group4_background4.mp3"
+            "static/audio/group1/group1_background.mp3",
+            "static/audio/group2/group2_background.mp3",
+            "static/audio/group3/group3_background.mp3",
+            "static/audio/group4/group4_background.mp3"
 
         ];
 
