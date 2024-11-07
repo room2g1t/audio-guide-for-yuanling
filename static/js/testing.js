@@ -475,7 +475,7 @@ function getWeight(square, dotX, dotY) {
         
         p.draw = function () {
             p.clear();
-            p.image(overlayImage, 0, 0, canvasSize, canvasSize);
+            p.image(overlayImage, 0, 0, p.width, p.height);
 
             // compute the red dot's geographic coordinates
             let geoCoords = imageToGeo(dotX, dotY);
