@@ -69,6 +69,35 @@ button:hover {
     background-color: #f6f4bd;
 }
 
+#groupButtons {
+    justify-content: flex-start; 
+    margin-left: 50%;                   
+}
+
+#groupButtons button {
+    background-color: #92b7c1; 
+    color: white;            
+    font-size: 4vw;         
+    padding: 1vw 2vw;
+    margin-left: 5%;  
+    margin: 0 5px;      
+    margin-bottom: 0%;     
+    border: none;            
+    border-radius: 5px;       
+    cursor: pointer;           
+    outline: none;              
+}
+
+
+#groupButtons button:hover {
+    background-color: #596a7b;   
+}
+
+#groupButtons button.active {
+    background-color: #596a7b; 
+    color: white;
+}
+
 label {
     font-size: 32px;
     margin-top: 0px;

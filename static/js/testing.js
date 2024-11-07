@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let bgFadeDuration = 2000; // Fade in/out duration in milliseconds
-    let bgDynamicVolume = -3;  // Volume in dB when no other tracks are playing
-    let backgroundVolume = -12; // Initial background volume in dB
-
-    // Global variables
+    // global variables
     let isPlaying = false;
     let backgroundTrack = null;
     let trackPlayers = {}; // To keep track of all playing tracks
@@ -11,38 +7,97 @@ document.addEventListener('DOMContentLoaded', function () {
     let dotX, dotY;
     let blueSquares = [];
     let p5Instance;
-    let tracksVolume = -24; // Initial tracks volume in dB
 
-    // Get the container element
+    const groupSquaresData = {
+        group1: [
+            { x: -1, y: 323, w: 65, h: 370, number: 1 },
+            { x: 51, y: 321, w: 200, h: 370, number: 2 },
+            { x: 241, y: 406, w: 445, h: 200, number: 3 },
+            { x: 671, y: 455, w: 130, h: 225, number: 4 },
+        ],
+        group2: [
+            { x: 455, y: 432, w: 220, h: 155, number: 1 },
+            { x: 245, y: 431, w: 225, h: 155, number: 2 },
+            { x: 245, y: 574, w: 220, h: 155, number: 3 },
+            { x: 456, y: 575, w: 220, h: 155, number: 4 },
+        ],
+        group3: [
+            { x: 530, y: 325, w: 145, h: 355, number: 1 },
+            { x: 60, y: 329, w: 190, h: 355, number: 2 },
+        ],
+        group4: [
+            { x: 603, y: 536, w: 195, h: 130, number: 1 },
+            { x: 410, y: 540, w: 165, h: 130, number: 2 },
+            { x: 235, y: 535, w: 145, h: 135, number: 3 },
+            { x: 236, y: 399, w: 170, h: 120, number: 4 },
+            { x: 434, y: 398, w: 180, h: 120, number: 5 },
+            { x: 634, y: 391, w: 160, h: 130, number: 6 },
+        ],
+    };
+    
+    const groupSettings = {
+        group1: {
+            bgFadeDuration: 2000,     // fade in/out duration in milliseconds
+            bgDynamicVolume: -6,      // volume in dB when no other tracks are playing
+            backgroundVolume: -12,    // initial background volume in dB
+            tracksVolume: -4,         // initial tracks volume in dB
+        },
+        group2: {
+            bgFadeDuration: 1500,
+            bgDynamicVolume: -5,
+            backgroundVolume: -10,
+            tracksVolume: -8,
+        },
+        group3: {
+            bgFadeDuration: 1800,
+            bgDynamicVolume: -4,
+            backgroundVolume: -11,
+            tracksVolume: -7,
+        },
+        group4: {
+            bgFadeDuration: 2000,
+            bgDynamicVolume: -3,
+            backgroundVolume: -26,
+            tracksVolume: -24,
+        },
+    };
+    
+    let bgFadeDuration;
+    let bgDynamicVolume;
+    let backgroundVolume;
+    let tracksVolume;
+
+    let currentGroup = 'group1'; 
+    
+    // get the container element
     let container = document.getElementById('canvasContainer');
     container.style.position = 'relative';
 
-    // Create the display element
+    // create the display element
     let latLonDisplay = document.createElement('div');
     latLonDisplay.id = 'latLonDisplay';
-    latLonDisplay.style.fontSize = '36px';
+    latLonDisplay.style.fontSize = '3vw';
     latLonDisplay.style.fontFamily = 'Arial';
     latLonDisplay.style.marginBottom = '0px';
     latLonDisplay.style.color = '#596a7b';
     latLonDisplay.style.textAlign = 'center';
     latLonDisplay.style.display = 'flex';
     latLonDisplay.style.flexDirection = 'column';  
-    latLonDisplay.style.margin = '180px auto 0 auto';
+    latLonDisplay.style.margin = '110px auto 0 auto';
 
-    // Insert it before the canvasContainer
+    // insert it before the canvasContainer
     container.parentNode.insertBefore(latLonDisplay, container.nextSibling);
 
     function getTracks() {
         let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-        let currentPage = document.body.dataset.page; // 'testing'
-        return languageData[currentLanguage][currentPage].audio.tracks;
+        return languageData[currentLanguage][currentGroup].audio.tracks;
     }
-
-    // Volume sliders
+    
+    // volume sliders
     let backgroundVolumeSlider = document.getElementById('backgroundVolume');
     let tracksVolumeSlider = document.getElementById('tracksVolume');
 
-    // Create volume display labels
+    // create volume display labels
     let backgroundVolumeDisplay = document.createElement('span');
     backgroundVolumeDisplay.id = 'backgroundVolumeDisplay';
     backgroundVolumeDisplay.style.marginLeft = '10px';
@@ -53,25 +108,98 @@ document.addEventListener('DOMContentLoaded', function () {
     tracksVolumeDisplay.style.marginLeft = '10px';
     tracksVolumeSlider.parentNode.appendChild(tracksVolumeDisplay);
 
-    // Update volume displays
+    // update volume displays
     backgroundVolumeDisplay.textContent = `${backgroundVolume} dB`;
     tracksVolumeDisplay.textContent = `${tracksVolume} dB`;
+
+    loadSettingsForCurrentGroup();
+    highlightSelectedButton(currentGroup);
 
     backgroundVolumeSlider.addEventListener('input', function () {
         backgroundVolume = Tone.gainToDb(parseFloat(backgroundVolumeSlider.value));
         backgroundVolumeDisplay.textContent = `${backgroundVolume.toFixed(1)} dB`;
+    
+        // update the group settings
+        groupSettings[currentGroup].backgroundVolume = backgroundVolume;
+    
         if (backgroundTrack && playingSquares.length > 0) {
-            // Other tracks are playing, adjust background track volume to new backgroundVolume
             backgroundTrack.volume.rampTo(backgroundVolume, 0.1);
         }
     });
-
+    
     tracksVolumeSlider.addEventListener('input', function () {
         tracksVolume = Tone.gainToDb(parseFloat(tracksVolumeSlider.value));
         tracksVolumeDisplay.textContent = `${tracksVolume.toFixed(1)} dB`;
-        // Recalculate volumes of playing tracks
+    
+        // update the group settings
+        groupSettings[currentGroup].tracksVolume = tracksVolume;
+    
+        // recalculate volumes of playing tracks
         handleAudioPlayback();
     });
+    
+    document.getElementById('group1Button').addEventListener('click', function() {
+        switchGroup('group1');
+    });
+    document.getElementById('group2Button').addEventListener('click', function() {
+        switchGroup('group2');
+    });
+    document.getElementById('group3Button').addEventListener('click', function() {
+        switchGroup('group3');
+    });
+    document.getElementById('group4Button').addEventListener('click', function() {
+        switchGroup('group4');
+    });
+    
+    function switchGroup(groupName) {
+        currentGroup = groupName;
+    
+        loadSettingsForCurrentGroup();
+        loadSquaresForCurrentGroup();    
+        updateTracksForCurrentGroup(); 
+        highlightSelectedButton(groupName);
+    }
+    
+    
+    function loadSquaresForCurrentGroup() {
+        let squaresData = groupSquaresData[currentGroup];
+    
+        if (squaresData) {
+            // use the default squares for the group
+            blueSquares = squaresData.map(sqData => new DraggableSquare(
+                sqData.x,
+                sqData.y,
+                sqData.w,
+                sqData.h,
+                p5Instance.color(255, 0, 0, 100),
+                sqData.number
+            ));
+        } else {
+            blueSquares = [];
+        }
+    }
+    function loadSettingsForCurrentGroup() {
+        const settings = groupSettings[currentGroup];
+        if (settings) {
+            bgFadeDuration = settings.bgFadeDuration;
+            bgDynamicVolume = settings.bgDynamicVolume;
+            backgroundVolume = settings.backgroundVolume;
+            tracksVolume = settings.tracksVolume;
+    
+            // update volume sliders to reflect the new settings
+            updateVolumeSliders();
+        }
+    }    
+    
+    function updateVolumeSliders() {
+        // update background volume slider
+        backgroundVolumeSlider.value = Tone.dbToGain(backgroundVolume);
+        backgroundVolumeDisplay.textContent = `${backgroundVolume} dB`;
+    
+        // update tracks volume slider
+        tracksVolumeSlider.value = Tone.dbToGain(tracksVolume);
+        tracksVolumeDisplay.textContent = `${tracksVolume} dB`;
+    }    
 
     async function userInteracted() {
         try {
@@ -82,119 +210,163 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function startBackgroundTrack() {
-        backgroundTrack = new Tone.Player({
-            url: 'static/audio/group1/group1_background1.mp3',
-            loop: true,
-            autostart: true,
-            volume: bgDynamicVolume
-        }).toDestination();
-        backgroundTrack.fadeIn = bgFadeDuration / 1000; // Convert ms to seconds
+    function updateTracksForCurrentGroup() {
+        // stop all playing tracks
+        Object.values(trackPlayers).forEach(player => {
+            player.stop();
+        });
+        trackPlayers = {};
+        playingSquares = [];
+    
+        // stop the current background track
+        if (backgroundTrack) {
+            backgroundTrack.stop();
+            backgroundTrack.dispose(); 
+            backgroundTrack = null;
+        }
+    
+        // start background track if the audio is playing
+        if (isPlaying) {
+            startBackgroundTrack();
+        }
     }
+    
+    
+    
+function startBackgroundTrack() {
+    if (backgroundTrack) {
+        return;
+    }
+    let backgroundUrl = `static/audio/${currentGroup}/${currentGroup}_background.mp3`;
+    backgroundTrack = new Tone.Player({
+        url: backgroundUrl,
+        loop: true,
+        autostart: false, 
+        volume: bgDynamicVolume,
+        onload: function() {
+            console.log('background track loaded');
+            if (isPlaying) {
+                backgroundTrack.start();
+            }
+        }
+    }).toDestination();
+    backgroundTrack.fadeIn = bgFadeDuration / 1000; 
+}
 
-    function handleAudioPlayback() {
-        let tracks = getTracks(); // Get the tracks based on the current language
+    
+function highlightSelectedButton(groupName) {
+    // remove active class from all buttons
+    document.querySelectorAll('#groupButtons button').forEach(button => {
+        button.classList.remove('active');
+    });
 
-        let squareWeights = [];
-        let totalWeight = 0;
+    // add active class to the selected button
+    document.getElementById(`${groupName}Button`).classList.add('active');
+}
 
-        blueSquares.forEach(square => {
-            let weight = getWeight(square, dotX, dotY);
-            if (weight > 0) {
-                squareWeights.push({ square: square, weight: weight });
-                totalWeight += weight;
+function handleAudioPlayback() {
+    let tracks = getTracks(); // get the tracks based on the current language
+
+    let squareWeights = [];
+    let totalWeight = 0;
+
+    blueSquares.forEach(square => {
+        let weight = getWeight(square, dotX, dotY);
+        if (weight > 0) {
+            squareWeights.push({ square: square, weight: weight });
+            totalWeight += weight;
+        }
+    });
+
+    if (totalWeight > 0) {
+        // normalize weights
+        squareWeights.forEach(item => {
+            item.weight /= totalWeight;
+        });
+
+        let currentPlayingSquares = squareWeights.map(item => item.square.number);
+
+        // start or adjust tracks
+        squareWeights.forEach(item => {
+            let squareNumber = item.square.number;
+            let weight = item.weight;
+            let trackKey = `location${squareNumber}`;
+            if (tracks[trackKey]) {
+                if (!trackPlayers[squareNumber]) {
+                    // start the track
+                    trackPlayers[squareNumber] = new Tone.Player({
+                        url: tracks[trackKey],
+                        loop: true,
+                        volume: -Infinity,
+                        autostart: true
+                    }).toDestination();
+                }
+                // adjust the volume, including tracksVolume
+                let adjustedVolume = tracksVolume + Tone.gainToDb(weight);
+                trackPlayers[squareNumber].volume.rampTo(adjustedVolume, 0.1);
             }
         });
 
-        if (totalWeight > 0) {
-            // Normalize weights
-            squareWeights.forEach(item => {
-                item.weight /= totalWeight;
-            });
-
-            let currentPlayingSquares = squareWeights.map(item => item.square.number);
-
-            // Start or adjust tracks
-            squareWeights.forEach(item => {
-                let squareNumber = item.square.number;
-                let weight = item.weight;
-                let trackKey = `location${squareNumber}`;
-                if (tracks[trackKey]) {
-                    if (!trackPlayers[squareNumber]) {
-                        // Start the track
-                        trackPlayers[squareNumber] = new Tone.Player({
-                            url: tracks[trackKey],
-                            loop: true,
-                            volume: -Infinity,
-                            autostart: true
-                        }).toDestination();
-                    }
-                    // Adjust the volume, including tracksVolume
-                    let adjustedVolume = tracksVolume + Tone.gainToDb(weight);
-                    trackPlayers[squareNumber].volume.rampTo(adjustedVolume, 0.1);
-                }
-            });
-
-            // Fade out and stop tracks that are no longer needed
-            playingSquares.forEach(squareNumber => {
-                if (!currentPlayingSquares.includes(squareNumber)) {
-                    if (trackPlayers[squareNumber]) {
-                        trackPlayers[squareNumber].volume.rampTo(-Infinity, 0.5);
-                        // Stop after fading out
-                        setTimeout(() => {
-                            trackPlayers[squareNumber].stop();
-                            delete trackPlayers[squareNumber];
-                        }, 500);
-                    }
-                }
-            });
-
-            // Update playingSquares
-            playingSquares = currentPlayingSquares.slice();
-        } else {
-            // No squares are active, fade out all tracks
-            playingSquares.forEach(squareNumber => {
+        // fade out and stop tracks that are no longer needed
+        playingSquares.forEach(squareNumber => {
+            if (!currentPlayingSquares.includes(squareNumber)) {
                 if (trackPlayers[squareNumber]) {
                     trackPlayers[squareNumber].volume.rampTo(-Infinity, 0.5);
+                    // stop after fading out
                     setTimeout(() => {
                         trackPlayers[squareNumber].stop();
                         delete trackPlayers[squareNumber];
                     }, 500);
                 }
-            });
-            playingSquares = [];
-        }
-
-        // Adjust background track volume based on whether other tracks are playing
-        if (backgroundTrack) {
-            if (playingSquares.length > 0) {
-                // Other tracks are playing, fade background track volume down to backgroundVolume (slider value)
-                backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
-            } else {
-                // No other tracks are playing, fade background track volume up to bgDynamicVolume
-                backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
             }
-        }
+        });
+
+        // update playingSquares
+        playingSquares = currentPlayingSquares.slice();
+    } else {
+        // no squares are active, fade out all tracks
+        playingSquares.forEach(squareNumber => {
+            if (trackPlayers[squareNumber]) {
+                trackPlayers[squareNumber].volume.rampTo(-Infinity, 0.5);
+                setTimeout(() => {
+                    trackPlayers[squareNumber].stop();
+                    delete trackPlayers[squareNumber];
+                }, 500);
+            }
+        });
+        playingSquares = [];
     }
 
-    function getWeight(square, dotX, dotY) {
-        // Compute the distance from the red dot to the center of the square
-        let centerX = square.x + square.w / 2;
-        let centerY = square.y + square.h / 2;
-        let dx = dotX - centerX;
-        let dy = dotY - centerY;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-
-        // Maximum distance is half the diagonal of the square
-        let maxDistance = Math.sqrt((square.w / 2) ** 2 + (square.h / 2) ** 2);
-
-        // If the dot is inside the square, weight is based on proximity to center
-        if (square.contains(dotX, dotY)) {
-            return 1 - (distance / maxDistance);
+    // adjust background track volume based on whether other tracks are playing
+    if (backgroundTrack) {
+        if (playingSquares.length > 0) {
+            // other tracks are playing, fade background track volume down to backgroundVolume
+            backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            return 0;
+            // no other tracks are playing, fade background track volume up to bgDynamicVolume
+            backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }
+}
+
+function getWeight(square, dotX, dotY) {
+    // compute the distance from the red dot to the center of the square
+    let centerX = square.x + square.w / 2;
+    let centerY = square.y + square.h / 2;
+    let dx = dotX - centerX;
+    let dy = dotY - centerY;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    // maximum distance is half the diagonal of the square
+    let maxDistance = Math.sqrt((square.w / 2) ** 2 + (square.h / 2) ** 2);
+
+    // if the dot is inside the square, weight is based on proximity to center
+    if (square.contains(dotX, dotY)) {
+        return 1 - (distance / maxDistance);
+    } else {
+        return 0;
+    }
+}
 
     class DraggableSquare {
         constructor(x, y, w, h, col, number) {
@@ -244,10 +416,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     let sketch = function (p) {
-        // Assign p5 instance to global variable
         p5Instance = p;
 
-        let canvasSize = 800;
+        let canvasSize;
         let dotSize = 30;
         let moveW = false, moveA = false, moveS = false, moveD = false;
         let overlayImage;
@@ -268,47 +439,60 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         p.setup = function () {
+            canvasSize = Math.min(p.windowWidth, p.windowHeight) * 0.8; 
             let canvas = p.createCanvas(canvasSize, canvasSize);
             canvas.parent('canvasContainer');
             canvas.style.position = 'absolute';
             canvas.style.top = '0';
             canvas.style.left = '0';
             canvas.style.zIndex = '2';
-
-            // Assign to global variables
+        
+            // assign to global variables
             dotX = p.width / 2;
             dotY = p.height / 2;
 
-            // Load saved blue squares from localStorage if available
-            let savedSquares = JSON.parse(localStorage.getItem('blueSquares'));
-            if (savedSquares) {
-                blueSquares = savedSquares.map(sq => new DraggableSquare(sq.x, sq.y, sq.w, sq.h, p.color(255, 0, 0, 100), sq.number));
-            } else {
-                blueSquares = [new DraggableSquare(150, 150, 80, 80, p.color(255, 0, 0, 100), 1)];
-            }
+            loadSquaresForCurrentGroup();
+            updateTracksForCurrentGroup();
 
-            // Create + button
-            let addButton = p.createButton('+');
-            addButton.position(p.width, p.height * 0.25);
-            addButton.style('background-color', '#92b7c1');
-            addButton.style('color', 'white');
-            addButton.style('font-size', '40px');
-            addButton.style('padding', '10px 20px');
-            addButton.style('outline', 'none');
-            addButton.style('border', '#92b7c1');
-            addButton.style('border-radius', '5px');
-            addButton.mousePressed(addSquare);
+        };
+        
+        p.printSquaresData = function() {
+            let squaresData = blueSquares.map(square => ({
+                x: Math.round(square.x),
+                y: Math.round(square.y),
+                w: Math.round(square.w),
+                h: Math.round(square.h),
+                number: square.number
+            }));
+        
+            console.log(`${currentGroup}: [`);
+            squaresData.forEach(data => {
+                console.log(`    { x: ${data.x}, y: ${data.y}, w: ${data.w}, h: ${data.h}, number: ${data.number} },`);
+            });
+            console.log(`],`);
         };
 
+        
         p.draw = function () {
             p.clear();
             p.image(overlayImage, 0, 0, canvasSize, canvasSize);
 
-            // Compute the red dot's geographic coordinates
+            // compute the red dot's geographic coordinates
             let geoCoords = imageToGeo(dotX, dotY);
 
-            // Display the coordinates
-            latLonDisplay.innerHTML = `Latitude: ${geoCoords.latitude.toFixed(4)}, Longitude: ${geoCoords.longitude.toFixed(4)}`;
+            // format the latitude and longitude with N/S and E/W
+            let latitude = geoCoords.latitude;
+            let longitude = geoCoords.longitude;
+
+            const latDirection = latitude >= 0 ? 'N' : 'S';
+            const lonDirection = longitude >= 0 ? 'E' : 'W';
+
+            const formattedLatitude = `${Math.abs(latitude).toFixed(4)}° ${latDirection}`;
+            const formattedLongitude = `${Math.abs(longitude).toFixed(4)}° ${lonDirection}`;
+
+            // display the formatted coordinates
+            latLonDisplay.innerHTML = `${formattedLatitude}, ${formattedLongitude}`;
+
 
             const step = 1;
             if (moveW) {
@@ -324,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 dotX = p.min(dotX + step, p.width - dotSize / 2);
             }
 
-            // Draw squares in the correct order to maintain layering
+            // draw squares in the correct order to maintain layering
             blueSquares.forEach(square => {
                 square.update(p.mouseX, p.mouseY);
                 square.show();
@@ -345,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let square = blueSquares[i];
                 square.pressed(p.mouseX, p.mouseY);
                 if (square.dragging) {
-                    // Bring the selected square to the front
+                    // bring the selected square to the front
                     blueSquares.push(blueSquares.splice(i, 1)[0]);
                     break;
                 }
@@ -367,44 +551,46 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (p.key === 'd' || p.key === 'D') {
                 moveD = true;
             } else if (p.keyCode === p.DELETE || p.keyCode === p.BACKSPACE) {
-                // Delete selected square
+                // delete selected square
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
                     blueSquares = blueSquares.filter(sq => sq !== draggingSquare);
-                    // Reassign numbers to maintain sequential order
+                    // reassign numbers to maintain sequential order
                     blueSquares.forEach((square, index) => {
                         square.number = index + 1;
                     });
-                    saveBlueSquares(); // Save squares after removing
+                    p.saveBlueSquares(); // save squares after removing
                 }
             } else if (p.keyIsDown(p.UP_ARROW)) {
-                // Increase height
+                // increase height
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
                     draggingSquare.h = p.min(draggingSquare.h + 5, canvasSize);
-                    saveBlueSquares(); // Save changes after resizing
+                    p.saveBlueSquares(); // save changes after resizing
                 }
             } else if (p.keyIsDown(p.DOWN_ARROW)) {
-                // Decrease height
+                // decrease height
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
                     draggingSquare.h = p.max(draggingSquare.h - 5, 10);
-                    saveBlueSquares(); // Save changes after resizing
+                    p.saveBlueSquares(); // save changes after resizing
                 }
             } else if (p.keyIsDown(p.LEFT_ARROW)) {
-                // Decrease width
+                // decrease width
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
                     draggingSquare.w = p.min(draggingSquare.w - 5, canvasSize);
-                    saveBlueSquares(); // Save changes after resizing
+                    p.saveBlueSquares(); // save changes after resizing
                 }
             } else if (p.keyIsDown(p.RIGHT_ARROW)) {
-                // Increase width
+                // increase width
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
                     draggingSquare.w = p.max(draggingSquare.w + 5, 10);
-                    saveBlueSquares(); // Save changes after resizing
+                    p.saveBlueSquares(); // save changes after resizing
                 }
+            } else if (p.key === 'c' || p.key === 'C') {
+                p.printSquaresData();
             }
         };
 
@@ -461,24 +647,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 let lat = points[i].latitude;
                 let lon = points[i].longitude;
 
-                // Equation for latitude and longitude
+                // equation for latitude and longitude
                 A.push([1, x, y, x * y]);
                 B_lat.push(lat);
                 B_lon.push(lon);
             }
 
-            // Compute the pseudo-inverse of A
+            // compute the pseudo-inverse of A
             let A_mat = math.matrix(A);
             let B_lat_mat = math.matrix(B_lat);
             let B_lon_mat = math.matrix(B_lon);
 
             let A_pinv = math.pinv(A_mat);
 
-            // Solve for parameters: params = A_pinv * B
+            // solve for parameters: params = A_pinv * B
             let paramsLat = math.multiply(A_pinv, B_lat_mat);
             let paramsLon = math.multiply(A_pinv, B_lon_mat);
 
-            // Convert solutions to arrays
+            // convert solutions to arrays
             paramsLat = paramsLat.valueOf().flat();
             paramsLon = paramsLon.valueOf().flat();
 
@@ -498,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     p5Instance = new p5(sketch);
 
-    // Play button click event
+    // play button click event
     let playButton = document.getElementById('playButton');
     playButton.addEventListener('click', async function () {
         if (!isPlaying) {
@@ -510,9 +696,10 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlaying = false;
             if (backgroundTrack) {
                 backgroundTrack.stop();
+                backgroundTrack.dispose(); 
                 backgroundTrack = null;
             }
-            // Stop all playing tracks
+            // stop all playing tracks
             Object.values(trackPlayers).forEach(player => {
                 player.stop();
             });
@@ -521,4 +708,11 @@ document.addEventListener('DOMContentLoaded', function () {
             playButton.src = 'static/images/playButton.png';
         }
     });
+    
+
+   // event listener for the [+] button
+   document.getElementById('addSquareButton').addEventListener('click', function() {
+    p5Instance.addSquare();
+});
+
 });
