@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // global variables
     let isPlaying = false;
     let backgroundTrack = null;
-    let trackPlayers = {}; // To keep track of all playing tracks
+    let trackPlayers = {}; 
     let playingSquares = [];
     let dotX, dotY;
     let blueSquares = [];
@@ -439,7 +439,7 @@ function getWeight(square, dotX, dotY) {
         };
 
         p.setup = function () {
-            canvasSize = Math.min(p.windowWidth, p.windowHeight) * 0.8; 
+            let canvasSize = Math.min(p.windowWidth, p.windowHeight) * 0.8;
             let canvas = p.createCanvas(canvasSize, canvasSize);
             canvas.parent('canvasContainer');
             canvas.style.position = 'absolute';
@@ -538,7 +538,7 @@ function getWeight(square, dotX, dotY) {
 
         p.mouseReleased = function () {
             blueSquares.forEach(square => square.released());
-            saveBlueSquares(); // Save squares when released
+            p.saveBlueSquares();
         };
 
         p.keyPressed = function () {
@@ -612,14 +612,14 @@ function getWeight(square, dotX, dotY) {
             }
         };
 
-        function addSquare() {
+        p.addSquare = function() {
             let maxNumber = blueSquares.reduce((max, square) => Math.max(max, square.number), 0);
             let newNumber = maxNumber + 1;
             blueSquares.push(new DraggableSquare(150, 150, 80, 80, p.color(255, 0, 0, 100), newNumber));
-            saveBlueSquares(); // Save squares after adding
-        }
-
-        function saveBlueSquares() {
+            p.saveBlueSquares(); 
+        };
+        
+        p.saveBlueSquares = function() {
             let squaresData = blueSquares.map(square => ({
                 x: square.x,
                 y: square.y,
@@ -627,8 +627,8 @@ function getWeight(square, dotX, dotY) {
                 h: square.h,
                 number: square.number
             }));
-            localStorage.setItem('blueSquares', JSON.stringify(squaresData));
-        }
+            localStorage.setItem(`blueSquares_${currentGroup}`, JSON.stringify(squaresData));
+        };
 
         function computeBilinearParameters(points) {
             let N = points.length;
