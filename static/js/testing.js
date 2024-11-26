@@ -12,18 +12,22 @@ document.addEventListener('DOMContentLoaded', function () {
         group1: [
             { x: -1, y: 323, w: 65, h: 370, number: 1 },
             { x: 51, y: 321, w: 200, h: 370, number: 2 },
-            { x: 241, y: 406, w: 445, h: 200, number: 3 },
-            { x: 671, y: 455, w: 130, h: 225, number: 4 },
+            { x: 235, y: 321, w: 155, h: 370, number: 3 },
+            { x: 378, y: 319, w: 145, h: 370, number: 4 },
+            { x: 508, y: 317, w: 165, h: 370, number: 5 },
+            { x: 656, y: 319, w: 125, h: 370, number: 6 },
         ],
         group2: [
-            { x: 455, y: 432, w: 220, h: 155, number: 1 },
-            { x: 245, y: 431, w: 225, h: 155, number: 2 },
-            { x: 245, y: 574, w: 220, h: 155, number: 3 },
-            { x: 456, y: 575, w: 220, h: 155, number: 4 },
+            { x: 242, y: 592, w: 205, h: 165, number: 3 },
+            { x: 236, y: 415, w: 210, h: 170, number: 2 },
+            { x: 457, y: 589, w: 205, h: 170, number: 4 },
+            { x: 457, y: 412, w: 210, h: 170, number: 1 },
         ],
         group3: [
-            { x: 530, y: 325, w: 145, h: 355, number: 1 },
-            { x: 60, y: 329, w: 190, h: 355, number: 2 },
+            { x: 489, y: 313, w: 170, h: 315, number: 1 },
+            { x: 217, y: 313, w: 285, h: 180, number: 2 },
+            { x: 50, y: 312, w: 185, h: 325, number: 3 },
+            { x: 50, y: 615, w: 615, h: 90, number: 4 },
         ],
         group4: [
             { x: 603, y: 536, w: 195, h: 130, number: 1 },
@@ -155,9 +159,13 @@ document.addEventListener('DOMContentLoaded', function () {
         currentGroup = groupName;
     
         loadSettingsForCurrentGroup();
-        loadSquaresForCurrentGroup();    
-        updateTracksForCurrentGroup(); 
+        loadSquaresForCurrentGroup();
+        updateTracksForCurrentGroup();
         highlightSelectedButton(groupName);
+
+        let groupNumber = currentGroup.replace('group', '');
+        let imagePath = `static/images/map/map${groupNumber}.png`;
+        p5Instance.updateOverlayImage(imagePath);
     }
     
     
@@ -171,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sqData.y,
                 sqData.w,
                 sqData.h,
-                p5Instance.color(255, 0, 0, 100),
+                p5Instance.color(255, 0, 0, 0),
                 sqData.number
             ));
         } else {
@@ -386,7 +394,7 @@ function getWeight(square, dotX, dotY) {
         }
 
         showNumber() {
-            p5Instance.fill('#942023');
+            p5Instance.fill(255, 0, 0, 0);
             p5Instance.textSize(this.w * 0.8);
             p5Instance.textAlign(p5Instance.CENTER, p5Instance.CENTER);
             p5Instance.textFont('Arial');
@@ -435,7 +443,7 @@ function getWeight(square, dotX, dotY) {
         let { paramsLat, paramsLon } = computeBilinearParameters(controlPoints);
 
         p.preload = function () {
-            overlayImage = p.loadImage('static/images/map.png');
+            overlayImage = null;
         };
 
         p.setup = function () {
@@ -454,8 +462,23 @@ function getWeight(square, dotX, dotY) {
             loadSquaresForCurrentGroup();
             updateTracksForCurrentGroup();
 
+            // load the initial overlay image based on the current group
+            let groupNumber = currentGroup.replace('group', '');
+            let imagePath = `static/images/map/map${groupNumber}.png`;
+
+            // load the image asynchronously
+            p.loadImage(imagePath, function (img) {
+                overlayImage = img;
+            });
+
         };
-        
+
+        p.updateOverlayImage = function (imagePath) {
+            p.loadImage(imagePath, function (img) {
+                overlayImage = img;
+            });
+        };
+
         p.printSquaresData = function() {
             let squaresData = blueSquares.map(square => ({
                 x: Math.round(square.x),
@@ -475,7 +498,9 @@ function getWeight(square, dotX, dotY) {
         
         p.draw = function () {
             p.clear();
-            p.image(overlayImage, 0, 0, p.width, p.height);
+            if (overlayImage) {
+                p.image(overlayImage, 0, 0, p.width, p.height);
+            }
 
             // compute the red dot's geographic coordinates
             let geoCoords = imageToGeo(dotX, dotY);
@@ -565,7 +590,7 @@ function getWeight(square, dotX, dotY) {
                 // increase height
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
-                    draggingSquare.h = p.min(draggingSquare.h + 5, canvasSize);
+                    draggingSquare.h = p.min(draggingSquare.h + 5, 2000);
                     p.saveBlueSquares(); // save changes after resizing
                 }
             } else if (p.keyIsDown(p.DOWN_ARROW)) {
@@ -579,7 +604,7 @@ function getWeight(square, dotX, dotY) {
                 // decrease width
                 let draggingSquare = blueSquares.find(sq => sq.dragging);
                 if (draggingSquare) {
-                    draggingSquare.w = p.min(draggingSquare.w - 5, canvasSize);
+                    draggingSquare.w = p.min(draggingSquare.w - 5, 2000);
                     p.saveBlueSquares(); // save changes after resizing
                 }
             } else if (p.keyIsDown(p.RIGHT_ARROW)) {
