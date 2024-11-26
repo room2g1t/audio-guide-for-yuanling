@@ -7,20 +7,20 @@ const languageData = {
                 preloadImage: "static/images/preload.png",
                 testButtonText: "Test",
                 groups: [
-                    { name: "Group 1", image: "static/images/group1/group1_image1.png" },
-                    { name: "Group 2", image: "static/images/group2/group2_image1.png" },
-                    { name: "Group 3", image: "static/images/group3/group3_image1.png" },
-                    { name: "Group 4", image: "static/images/group4/group4_image1.png" }
+                    { name: "Melodic Encounters at Yuanling", image: "static/images/group1/group1_image1.png" },
+                    { name: "Young Shenzhen", image: "static/images/group2/group2_image1.png" },
+                    { name: "Yuanling Sports", image: "static/images/group3/group3_image1.png" },
+                    { name: "Voices of Yuanling: Symphony of the Times", image: "static/images/group4/group4_image1.png" }
                 ],
                 footerText: "© Sound Studies Group, SUSTech, 2024",
             }
         },
         group1: {
             texts: {
-                title: "group1",
-                textDisplay1: "Name 1",
-                textDisplay2: "Name 2",
-                textDisplay3: "Name 3",
+                title: "Melodic Encounters at Yuanling",
+                textDisplay1: "Garnet",
+                textDisplay2: "Christine",
+                textDisplay3: "Coral",
                 locationInfo: "Location information is unavailable.",
                 footerText: "© Sound Studies Group, SUSTech, 2024",
             },
@@ -37,10 +37,8 @@ const languageData = {
         },
         group2: {
             texts: {
-                title: "group2",
-                textDisplay1: "Name 1",
-                textDisplay2: "Name 2",
-                textDisplay3: "Name 3",
+                title: "Young Shenzhen",
+                textDisplay1: "Qian",
                 locationInfo: "Location information is unavailable.",
                 footerText: "© Sound Studies Group, SUSTech, 2024",
             },
@@ -57,10 +55,8 @@ const languageData = {
         },
         group3: {
             texts: {
-                title: "group1",
-                textDisplay1: "Name 1",
-                textDisplay2: "Name 2",
-                textDisplay3: "Name 3",
+                title: "Yuanling Sports",
+                textDisplay1: "Hank",
                 locationInfo: "Location information is unavailable.",
                 footerText: "© Sound Studies Group, SUSTech, 2024",
             },
@@ -77,10 +73,10 @@ const languageData = {
         },
         group4: {
             texts: {
-                title: "group4",
-                textDisplay1: "Name 1",
-                textDisplay2: "Name 2",
-                textDisplay3: "Name 3",
+                title: "Voices of Yuanling: Symphony of the Times",
+                textDisplay1: "Fred",
+                textDisplay2: "Kara",
+                textDisplay3: "Alan",
                 locationInfo: "Location information is unavailable.",
                 footerText: "© Sound Studies Group, SUSTech, 2024",
             },
@@ -124,21 +120,21 @@ const languageData = {
                 preloadImage: "static/images/preload.png",
                 testButtonText: "测试",
                 groups: [
-                    { name: "第一组", image: "static/images/group1/group1_image1.png" },
-                    { name: "第二组", image: "static/images/group2/group2_image1.png" },
-                    { name: "第三组", image: "static/images/group3/group3_image1.png" },
-                    { name: "第四组", image: "static/images/group4/group4_image1.png" }
+                    { name: "声遇园岭", image: "static/images/group1/group1_image1.png" },
+                    { name: "童心深圳", image: "static/images/group2/group2_image1.png" },
+                    { name: "园岭，体育，深圳人这一生", image: "static/images/group3/group3_image1.png" },
+                    { name: "园岭之声：时代交响", image: "static/images/group4/group4_image1.png" }
                 ],
                 footerText: "© 声音研究科研组, SUSTech, 2024", 
             }
         },
         group1: {
             texts: {
-                title: "第一组",
-                textDisplay1: "组员1",
-                textDisplay2: "组员2",
-                textDisplay3: "组员3",
-                locationInfo: "Location information is unavailable.",
+                title: "声遇园岭",
+                textDisplay1: "宫喜",
+                textDisplay2: "汪昱岑",
+                textDisplay3: "徐羽萱",
+                locationInfo: "无法获取位置信息。",
                 footerText: "© 声音研究科研组, SUSTech, 2024", 
             },
             audio: {
@@ -154,11 +150,9 @@ const languageData = {
         },
         group2: {
             texts: {
-                title: "第二组",
-                textDisplay1: "组员1",
-                textDisplay2: "组员2",
-                textDisplay3: "组员3",
-                locationInfo: "Location information is unavailable.",
+                title: "童心深圳",
+                textDisplay1: "许跃骞",
+                locationInfo: "无法获取位置信息。",
                 footerText: "© 声音研究科研组, SUSTech, 2024", 
             },
             audio: {
@@ -174,11 +168,9 @@ const languageData = {
         },
         group3: {
             texts: {
-                title: "第三组",
-                textDisplay1: "组员1",
-                textDisplay2: "组员2",
-                textDisplay3: "组员3",
-                locationInfo: "Location information is unavailable.",
+                title: "园岭，体育，深圳人这一生",
+                textDisplay1: "吴业青",
+                locationInfo: "无法获取位置信息。",
                 footerText: "© 声音研究科研组, SUSTech, 2024", 
             },
             audio: {
@@ -194,11 +186,11 @@ const languageData = {
         },
         group4: {
             texts: {
-                title: "第四组",
-                textDisplay1: "组员1",
-                textDisplay2: "组员2",
-                textDisplay3: "组员3",
-                locationInfo: "Location information is unavailable.",
+                title: "园岭之声：时代交响",
+                textDisplay1: "杨熙楠",
+                textDisplay2: "牛文可",
+                textDisplay3: "许可",
+                locationInfo: "无法获取位置信息。",
                 footerText: "© 声音研究科研组, SUSTech, 2024", 
             },
             audio: {

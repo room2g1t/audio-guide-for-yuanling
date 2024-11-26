@@ -2,7 +2,7 @@ h1 {
     color: #34495e;
     font-weight: 800;
     margin-left: 5%;
-    font-size: 8vw;
+    font-size: 5vw;
 }
 
 html, body {
@@ -91,7 +91,7 @@ button:hover {
 }
 
 label {
-    font-size: 20vw;
+    font-size: 3vw;
     margin-top: 0px;
     color: #34495e;
 }
@@ -116,7 +116,7 @@ label {
 
 .text-display {
     color: #34495e; 
-    font-size: 3vh; 
+    font-size: 4vw; 
     margin: 0 10px; 
 }
 

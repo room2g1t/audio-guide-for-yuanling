@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // create the canvas for displaying GPS data
                 const canvas = p.createCanvas(p.windowWidth * 0.8, p.windowHeight * 0.25);
                 canvas.parent('canvasContainer');
-                p.textSize(window.innerHeight * 0.03);
+                p.textSize(window.innerHeight * 0.02);
                 p.textStyle(p.BOLD);
                 p.fill('#34495e');
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
                     );
                 } else {
-                    p.textSize(window.innerHeight * 0.03);
+                    p.textSize(window.innerHeight * 0.02);
                     p.fill('#34495e');
                     p.text('geolocation is not supported by your browser.',p.windowWidth * 0.02, p.height * 0.05);
                     console.error('geolocation is not supported by your browser.');

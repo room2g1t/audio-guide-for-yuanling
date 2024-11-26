@@ -17,7 +17,7 @@
     flex: 1; 
     background-color: transparent;
     border: none;
-    font-size: 56px; 
+    font-size: 4vw; 
     font-family: Arial, sans-serif;
     color: #34495e; 
     text-align: right;
@@ -82,7 +82,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 36px;
     background-color: #a8c5cd;
     border-radius: 80px;
     height: 600px;
@@ -90,14 +90,14 @@ body {
 }
 
 label {
-    font-size: 32px;
+    font-size: 20px;
     margin-top: 0;
     color: #34495e; 
 }
 
 /* preload icon container styles */
 #preloadIconContainer {
-    position: fixed;
+    position: absolute;
     top: 5%; 
     left: 10%; 
     background: none;
@@ -134,7 +134,7 @@ label {
     cursor: pointer;
     border: none; 
     background: none;
-    position: fixed;
+    position: absolute;
     top: 5%; 
     right: 10%; 
     background: none;
@@ -145,7 +145,7 @@ label {
 }
 
 #testButton {
-    position: fixed;
+    position: absolute;
     top: 10%; 
     right: 10%; 
     background: none;
