@@ -121,7 +121,7 @@ const languageData = {
                 testButtonText: "测试",
                 groups: [
                     { name: "声遇园岭", image: "static/images/group1/group1_image1.png" },
-                    { name: "童心深圳", image: "static/images/group2/group2_image1.png" },
+                    { name: "童心深圳", image: "static/images/group2/group2_image1.jpg" },
                     { name: "园岭，体育，深圳人这一生", image: "static/images/group3/group3_image1.png" },
                     { name: "园岭之声：时代交响", image: "static/images/group4/group4_image1.png" }
                 ],
