@@ -8,7 +8,7 @@ const languageData = {
                 testButtonText: "Test",
                 groups: [
                     { name: "Melodic Encounters at Yuanling", image: "static/images/group1/group1_image1.png" },
-                    { name: "Young Shenzhen", image: "static/images/group2/group2_image1.png" },
+                    { name: "Young Shenzhen", image: "static/images/group2/group2_image1.jpg" },
                     { name: "Yuanling Sports", image: "static/images/group3/group3_image1.png" },
                     { name: "Voices of Yuanling: Symphony of the Times", image: "static/images/group4/group4_image1.png" }
                 ],
