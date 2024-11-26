@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
             { x: 50, y: 615, w: 615, h: 90, number: 4 },
         ],
         group4: [
-            { x: 603, y: 536, w: 195, h: 130, number: 1 },
-            { x: 410, y: 540, w: 165, h: 130, number: 2 },
-            { x: 235, y: 535, w: 145, h: 135, number: 3 },
-            { x: 236, y: 399, w: 170, h: 120, number: 4 },
-            { x: 434, y: 398, w: 180, h: 120, number: 5 },
-            { x: 634, y: 391, w: 160, h: 130, number: 6 },
+            { x: 639, y: 522, w: 145, h: 150, number: 1 },
+            { x: 447, y: 352, w: 210, h: 185, number: 5 },
+            { x: 444, y: 528, w: 215, h: 145, number: 2 },
+            { x: 644, y: 357, w: 145, h: 180, number: 6 },
+            { x: 236, y: 356, w: 225, h: 160, number: 4 },
+            { x: 239, y: 502, w: 220, h: 170, number: 3 },
         ],
     };
     
