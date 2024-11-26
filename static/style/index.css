@@ -56,6 +56,7 @@ body {
     min-height: 100vh;
     background-color: #ddebee;
     color: #34495e; 
+    padding-top: 40px;
 }
 
 /* navigation styles */
