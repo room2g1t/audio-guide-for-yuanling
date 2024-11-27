@@ -29,7 +29,8 @@
 
         <!-- play and stop buttons -->
         <div class="control-buttons">
-            <img id="playButton" src="static/images/playButton.png" alt="play" class="play-button">
+            <img src="static/images/playButton.png" class="play-button" id="playButton">
+            <div class="play-text">Play</div>
         </div>
         <!-- canvas for displaying GPS data -->
         <div id="canvasContainer"></div>
@@ -39,10 +40,13 @@
 
     <!-- footer -->
     <footer class="body-foot">
-        <div class="foot-bottom">
-            SUSTech School fo Design, DS345, 2024
+        <div class="foot-content">
+            <img src="static/images/logoW.png" alt="School Icon" class="school-icon">
+            <div class="foot-bottom">
+                SUSTech School of Design, DS345, 2024
+            </div>
         </div>
-    </footer>   
+    </footer> 
 
     <script>
         // add event listener to enable location button

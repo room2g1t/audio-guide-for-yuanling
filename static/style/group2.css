@@ -31,14 +31,6 @@ button {
     border: none;
 }
 
-.play-button {
-    width: 20vw;  
-    height: 20vw; 
-    cursor: pointer;
-    margin-left: 70%; 
-    margin-top: 0;
-}
-
 #languageToggleButton {
     display: flex;
     cursor: pointer;
@@ -56,8 +48,26 @@ button {
 
 .control-buttons {
     display: flex;
-    align-items: center;  /* align images vertically */
-    margin-top: 0px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 0;
+    margin-left: 70%; 
+}
+
+.play-button {
+    width: 20vw;
+    height: 20vw;
+    cursor: pointer;
+    margin-left: 70%; 
+    margin: 0;
+}
+
+.play-text {
+    font-size: 3vw; 
+    color: #000000;
+    margin-top: 1vh;
+    font-weight: bold; 
 }
 
 /* container styles */
@@ -116,22 +126,30 @@ label {
     margin: 0 10px; 
 }
 
-
+/* footer styles */
 .body-foot {
     width: 100%;
     background-color: transparent;
     padding: 20px;
     position: fixed; 
     bottom: 0; 
-    text-align: center;
 }
 
 .foot-bottom {
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
     font-size: 1.5em;
-    font-weight: 1200;
-    color: #f2f2f2;
-    font-family: Arial, sans-serif; 
+    font-weight: 900;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.foot-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.school-icon {
+    width: 30px; 
+    height: auto;
+    margin-right: 10px; 
 }

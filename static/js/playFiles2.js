@@ -53,6 +53,10 @@ function startBackgroundTrack() {
 
 async function togglePlayback() {
     let playButton = document.getElementById('playButton');
+    let playTextElement = document.querySelector('.play-text');
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
+    let currentPage = document.body.dataset.page;
+    let texts = languageData[currentLanguage][currentPage].texts;
 
     if (isPlaying) {
         stopAllPlayback(true);
@@ -61,7 +65,6 @@ async function togglePlayback() {
     } else {
         isPlaying = true;
         playButton.src = 'static/images/pauseButton.png';
-        console.log("user initiated playback. GPS-based playback now enabled.");
 
         // ensure the Tone.js audio context is started
         await userInteracted();
@@ -91,6 +94,12 @@ async function togglePlayback() {
                 );
             } else {
                 console.error('Geolocation is not supported by your browser.');
+            }
+        }
+        if (playTextElement) {
+            const playText = texts.playText;
+            if (playText) {
+                playTextElement.textContent = isPlaying ? playText.pause : playText.play;
             }
         }
     }

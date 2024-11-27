@@ -188,15 +188,23 @@ label {
     padding: 20px;
     position: fixed; 
     bottom: 0; 
-    text-align: center;
 }
 
 .foot-bottom {
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
     font-size: 1.5em;
     font-weight: 900;
     color: #000000;
     font-family: Arial, sans-serif;
+}
+
+.foot-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.school-icon {
+    width: 30px; 
+    height: auto;
+    margin-right: 10px; 
 }

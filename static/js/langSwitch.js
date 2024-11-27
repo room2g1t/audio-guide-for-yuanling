@@ -17,7 +17,7 @@ const languageData = {
                         name: "Young Shenzhen", 
                         image: "static/images/group2/group2_image1.jpg",
                         students:"Qian",
-                        description: "Age, Culture, Language, Life",
+                        description: "Sports Atmosphere, Exercise Guidelines, Perserverance Culture",
                      },
                     { 
                         name: "Yuanling Sports", 
@@ -43,6 +43,10 @@ const languageData = {
                 textDisplay3: "Coral",
                 locationInfo: "Location information is unavailable.",
                 footerText: "SUSTech School fo Design, DS345, 2024",
+                playText:{
+                    play: "Play",
+                    pause: "Pause"
+                }
             },
             audio: {
                 tracks: {
@@ -61,6 +65,10 @@ const languageData = {
                 textDisplay1: "Qian",
                 locationInfo: "Location information is unavailable.",
                 footerText: "SUSTech School fo Design, DS345, 2024",
+                playText:{
+                    play: "Play",
+                    pause: "Pause"
+                }
             },
             audio: {
                 tracks: {
@@ -79,6 +87,10 @@ const languageData = {
                 textDisplay1: "Hank",
                 locationInfo: "Location information is unavailable.",
                 footerText: "SUSTech School fo Design, DS345, 2024",
+                playText:{
+                    play: "Play",
+                    pause: "Pause"
+                }
             },
             audio: {
                 tracks: {
@@ -99,6 +111,10 @@ const languageData = {
                 textDisplay3: "Alan",
                 locationInfo: "Location information is unavailable.",
                 footerText: "SUSTech School fo Design, DS345, 2024",
+                playText:{
+                    play: "Play",
+                    pause: "Pause"
+                }
             },
             audio: {
                 tracks: {
@@ -156,7 +172,7 @@ const languageData = {
                         name: "园岭，体育，深圳人这一生", 
                         image: "static/images/group3/group3_image1.png",
                         students:"吴业青",
-                        description: "体育，文化", 
+                        description: "运动氛围，锻炼指引，拼搏文化", 
                     },
                     { 
                         name: "园岭之声：时代交响", 
@@ -176,6 +192,10 @@ const languageData = {
                 textDisplay3: "徐羽萱",
                 locationInfo: "无法获取位置信息。",
                 footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
+                playText:{
+                    play: "播放",
+                    pause: "暂停 "
+                }
             },
             audio: {
                 tracks: {
@@ -194,6 +214,10 @@ const languageData = {
                 textDisplay1: "许跃骞",
                 locationInfo: "无法获取位置信息。",
                 footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
+                playText:{
+                    play: "播放",
+                    pause: "暂停 "
+                }
             },
             audio: {
                 tracks: {
@@ -212,6 +236,10 @@ const languageData = {
                 textDisplay1: "吴业青",
                 locationInfo: "无法获取位置信息。",
                 footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
+                playText:{
+                    play: "播放",
+                    pause: "暂停 "
+                }
             },
             audio: {
                 tracks: {
@@ -232,6 +260,10 @@ const languageData = {
                 textDisplay3: "许可",
                 locationInfo: "无法获取位置信息。",
                 footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
+                playText:{
+                    play: "播放",
+                    pause: "暂停 "
+                }
             },
             audio: {
                 tracks: {
@@ -284,7 +316,7 @@ function updateTextAndAudio() {
 
     document.title = texts.title; // update the page title
 
-    // Update group-specific text displays
+    // update group-specific text displays
     const textDisplay1 = document.getElementById('textDisplay1');
     const textDisplay2 = document.getElementById('textDisplay2');
     const textDisplay3 = document.getElementById('textDisplay3');
@@ -324,6 +356,15 @@ function updateTextAndAudio() {
     const footerText = document.querySelector('.body-foot .foot-bottom');
     if (footerText) {
         footerText.textContent = texts.footerText; // update footer text
+    }
+
+    const playTextElement = document.querySelector('.play-text');
+    if (playTextElement) {
+        const isPlaying = window.isPlaying || false; 
+        const playText = texts.playText;
+        if (playText) {
+            playTextElement.textContent = isPlaying ? playText.pause : playText.play;
+        }
     }
 
     const backgroundVolumeLabel = document.querySelector('label[for="backgroundVolume"]');
@@ -374,7 +415,6 @@ function updateTextAndAudio() {
                 // append the name and description to the groupContent
                 groupContent.appendChild(groupStudents);
                 groupContent.appendChild(groupDescription);
-
 
                 groupContainer.appendChild(img);
                 groupContainer.appendChild(groupContent);
