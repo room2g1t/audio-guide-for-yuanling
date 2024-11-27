@@ -1,11 +1,11 @@
 .group-container {
     display: flex;
     align-items: flex-start; 
-    justify-content: space-between;
-    background-color: #ddebee;
+    gap: 2vw;
+    background-color: #d9d9d9;
     width: 100%;
     height: calc(65vh / 4); 
-    box-shadow: 0px 0px 8px #596a7b;
+    box-shadow: 0px 0px 8px #5c5c5c;
     margin-bottom: 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -19,8 +19,8 @@
     border: none;
     font-size: 4vw; 
     font-family: Arial, sans-serif;
-    color: #34495e; 
-    text-align: right;
+    color: #000000; 
+    text-align: left;
     padding: 0; 
     font-weight: 900; 
     align-self: flex-start; 
@@ -30,7 +30,7 @@
 }
 
 .group-container:hover {
-    background-color: #f6f4bd;
+    background-color: #f2f2f2;
 }
 
 .group-link {
@@ -54,8 +54,8 @@ body {
     align-items: center; 
     justify-content: center; 
     min-height: 100vh;
-    background-color: #ddebee;
-    color: #34495e; 
+    background-color: #ffffff;
+    color: #000000; 
     padding-top: 7vh;
 }
 
@@ -111,7 +111,7 @@ label {
     flex-direction: column;
     align-items: center;
     font-size: 36px;
-    color: #34495e; 
+    color: #000000; 
     font-weight: 900;
     cursor: pointer;
     border: none; 
@@ -120,7 +120,7 @@ label {
 }
 
 #preloadIcon:hover {
-    color: #f6f4bd;
+    color: #f2f2f2;
 }
 
 /* preload image styles */
@@ -154,7 +154,7 @@ label {
     flex-direction: column;
     align-items: center;
     font-size: 36px;
-    color: #34495e;
+    color: #000000;
     font-weight: 900;
     cursor: pointer;
     border: none;
@@ -164,13 +164,13 @@ label {
 }
 
 #testButton:hover {
-    color: #f6f4bd;
+    color: #f2f2f2;
 }
 
 /* footer styles */
 .body-foot {
     width: 100%;
-    background-color: #ddebee;
+    background-color: #ffffff;
     padding: 20px;
     position: fixed; 
     bottom: 0; 
@@ -183,6 +183,6 @@ label {
     text-align: center;
     font-size: 1.5em;
     font-weight: 900;
-    color: #34495e;
+    color: #000000;
     font-family: Arial, sans-serif;
 }

@@ -12,7 +12,7 @@ const languageData = {
                     { name: "Yuanling Sports", image: "static/images/group3/group3_image1.png" },
                     { name: "Voices of Yuanling: Symphony of the Times", image: "static/images/group4/group4_image1.png" }
                 ],
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
             }
         },
         group1: {
@@ -22,7 +22,7 @@ const languageData = {
                 textDisplay2: "Christine",
                 textDisplay3: "Coral",
                 locationInfo: "Location information is unavailable.",
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
             },
             audio: {
                 tracks: {
@@ -40,7 +40,7 @@ const languageData = {
                 title: "Young Shenzhen",
                 textDisplay1: "Qian",
                 locationInfo: "Location information is unavailable.",
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
             },
             audio: {
                 tracks: {
@@ -58,7 +58,7 @@ const languageData = {
                 title: "Yuanling Sports",
                 textDisplay1: "Hank",
                 locationInfo: "Location information is unavailable.",
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
             },
             audio: {
                 tracks: {
@@ -78,7 +78,7 @@ const languageData = {
                 textDisplay2: "Kara",
                 textDisplay3: "Alan",
                 locationInfo: "Location information is unavailable.",
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
             },
             audio: {
                 tracks: {
@@ -94,7 +94,7 @@ const languageData = {
         testing: {
             texts: {
                 title: "testing",
-                footerText: "© Sound Studies Group, SUSTech, 2024",
+                footerText: "SUSTech School fo Design, DS345, 2024",
                 volumeLabels: {
                     background: "Background:",
                     tracks: "Tracks:"
@@ -125,7 +125,7 @@ const languageData = {
                     { name: "园岭，体育，深圳人这一生", image: "static/images/group3/group3_image1.png" },
                     { name: "园岭之声：时代交响", image: "static/images/group4/group4_image1.png" }
                 ],
-                footerText: "© 声音研究科研组, SUSTech, 2024", 
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             }
         },
         group1: {
@@ -135,7 +135,7 @@ const languageData = {
                 textDisplay2: "汪昱岑",
                 textDisplay3: "徐羽萱",
                 locationInfo: "无法获取位置信息。",
-                footerText: "© 声音研究科研组, SUSTech, 2024", 
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             },
             audio: {
                 tracks: {
@@ -153,7 +153,7 @@ const languageData = {
                 title: "童心深圳",
                 textDisplay1: "许跃骞",
                 locationInfo: "无法获取位置信息。",
-                footerText: "© 声音研究科研组, SUSTech, 2024", 
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             },
             audio: {
                 tracks: {
@@ -171,7 +171,7 @@ const languageData = {
                 title: "园岭，体育，深圳人这一生",
                 textDisplay1: "吴业青",
                 locationInfo: "无法获取位置信息。",
-                footerText: "© 声音研究科研组, SUSTech, 2024", 
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             },
             audio: {
                 tracks: {
@@ -191,7 +191,7 @@ const languageData = {
                 textDisplay2: "牛文可",
                 textDisplay3: "许可",
                 locationInfo: "无法获取位置信息。",
-                footerText: "© 声音研究科研组, SUSTech, 2024", 
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             },
             audio: {
                 tracks: {
@@ -207,7 +207,7 @@ const languageData = {
         testing: {
             texts: {
                 title: "测试界面",
-                footerText: "© 声音研究科研组, SUSTech, 2024",
+                footerText: "南方科技大学创新创意设计学院, DS345, 2024",
                 volumeLabels: {
                     background: "背景声:",
                     tracks: "其他声音:"
