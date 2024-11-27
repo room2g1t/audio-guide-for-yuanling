@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     latLonDisplay.style.fontSize = '3vw';
     latLonDisplay.style.fontFamily = 'Arial';
     latLonDisplay.style.marginBottom = '0px';
-    latLonDisplay.style.color = '#596a7b';
+    latLonDisplay.style.color = '#000000';
     latLonDisplay.style.textAlign = 'center';
     latLonDisplay.style.display = 'flex';
     latLonDisplay.style.flexDirection = 'column';  

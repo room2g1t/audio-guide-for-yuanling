@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 canvas.parent('canvasContainer');
                 p.textSize(window.innerHeight * 0.02);
                 p.textStyle(p.BOLD);
-                p.fill('#34495e');
+                p.fill('#000000');
 
                 // check if geolocation is available in the browser
                 if (navigator.geolocation) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // display the current GPS coordinates
                 if (latitude !== undefined && longitude !== undefined) {
                     p.textSize(window.innerHeight * 0.03);
-                    p.fill('#34495e');
+                    p.fill('#000000');
                     const latDirection = latitude >= 0 ? 'N' : 'S';
                     const lonDirection = longitude >= 0 ? 'E' : 'W';
                     
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             function showError(error) {
                 let errorMessage;
                 p.textSize(window.innerHeight * 0.03);
-                p.fill('#34495e');
+                p.fill('#000000');
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
                         errorMessage = 'geolocation permission denied. please allow location access.';

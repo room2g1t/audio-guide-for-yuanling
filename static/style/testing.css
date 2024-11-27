@@ -1,12 +1,12 @@
 /* general body styles */
 body {
-    background-color: #ddebee;
+    background-color: #ffffff;
     font-family: Arial, sans-serif;
     font-weight: 800;
 }
 
 h1 {
-    color: #34495e;
+    color: #000000;
     font-weight: 800;
     margin-left: 5%;
     font-size: 64px;
@@ -44,13 +44,13 @@ button {
     flex-direction: column;
     align-items: left;
     padding: 20px;
-    background-color: #cbdce1;
+    background-color: #f2f2f2;
     border-radius: 20px;
     height: 50vh;
     width: 85vw;
     margin-top: 10vh; 
     margin-left: 5%;
-    box-shadow: 0px 0px 8px #596a7b;
+    box-shadow: 0px 0px 8px #5c5c5c;
 }
 
 .back-button,
@@ -65,9 +65,6 @@ button {
     top: 5vh;
 }
 
-button:hover {
-    background-color: #f6f4bd;
-}
 
 #groupButtons {
     justify-content: flex-start; 
@@ -75,7 +72,7 @@ button:hover {
 }
 
 #groupButtons button {
-    background-color: #92b7c1; 
+    background-color: #b2b2b2; 
     color: white;            
     font-size: 4vw;         
     padding: 1vw 2vw;
@@ -90,18 +87,18 @@ button:hover {
 
 
 #groupButtons button:hover {
-    background-color: #596a7b;   
+    background-color: #5c5c5c;   
 }
 
 #groupButtons button.active {
-    background-color: #596a7b; 
+    background-color: #5c5c5c; 
     color: white;
 }
 
 label {
     font-size: 3vw;
     margin-top: 0px;
-    color: #34495e;
+    color: #000000;
 }
 
 #languageToggleButton {
@@ -153,7 +150,7 @@ canvas {
     left: 50%;
     font-family: Arial, sans-serif;
     font-size: 4vw;
-    color: #596a7b;
+    color: #000000;
 }
 
 .volume-controls label {
@@ -165,7 +162,7 @@ canvas {
     appearance: none;
     width: 20vw;
     height: 2vw;
-    background: #ffffff;
+    background: #d6d6d6;
     border-radius: 5px;
     outline: none;
     margin-right: 10px;
@@ -180,7 +177,7 @@ canvas {
     appearance: none;
     width: 25px;
     height: 25px;
-    background: #92b7c1;
+    background: #000000;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -188,20 +185,20 @@ canvas {
 .volume-controls input[type="range"]::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #92b7c1;
+    background: #000000;
     border-radius: 50%;
     cursor: pointer;
 }
 
 #backgroundVolumeDisplay, #tracksVolumeDisplay {
     font-size: 24px;
-    color: #34495e;
+    color: #000000;
     margin-left: 5px;
 }
 
 .body-foot {
     width: 100%;
-    background-color: #ddebee;
+    background-color: #ffffff;
     padding: 20px;
     position: fixed; 
     bottom: 0; 
@@ -214,6 +211,6 @@ canvas {
     text-align: center;
     font-size: 1.5em;
     font-weight: 1200;
-    color: #34495e;
+    color: #000000;
     font-family: Arial, sans-serif; 
 }

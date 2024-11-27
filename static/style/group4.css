@@ -1,5 +1,5 @@
 h1 {
-    color: #34495e;
+    color: #000000;
     font-weight: 800;
     margin-left: 5%;
     font-size: 5vw;
@@ -67,13 +67,13 @@ button {
     flex-direction: column;
     align-items: left;
     padding: 20px;
-    background-color: rgba(203, 220, 225, 0.7);
+    background-color: rgba(242, 242, 242, 0.7);
     border-radius: 20px;
     height: 40vh;
     width: 85vw;
     margin-top: 10vh; 
     margin-left: 5%;
-    box-shadow: 0px 0px 8px #596a7b;
+    box-shadow: 0px 0px 8px #5c5c5c;
 }
 
 .back-button {
@@ -87,14 +87,11 @@ button {
     top: 5vh;
 }
 
-button:hover {
-    background-color: #f6f4bd;
-}
 
 label {
     font-size: 3vw;
     margin-top: 0px;
-    color: #34495e;
+    color: #000000;
 }
 
 #canvasContainer {
@@ -116,7 +113,7 @@ label {
 }
 
 .text-display {
-    color: #34495e; 
+    color: #000000; 
     font-size: 4vw; 
     margin: 0 10px; 
 }
@@ -136,6 +133,6 @@ label {
     text-align: center;
     font-size: 1.5em;
     font-weight: 1200;
-    color: #ddebee;
+    color: #f2f2f2;
     font-family: Arial, sans-serif; 
 }
