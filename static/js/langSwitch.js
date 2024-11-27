@@ -7,10 +7,30 @@ const languageData = {
                 preloadImage: "static/images/preload.png",
                 testButtonText: "Test",
                 groups: [
-                    { name: "Melodic Encounters at Yuanling", image: "static/images/group1/group1_image1.png" },
-                    { name: "Young Shenzhen", image: "static/images/group2/group2_image1.jpg" },
-                    { name: "Yuanling Sports", image: "static/images/group3/group3_image1.png" },
-                    { name: "Voices of Yuanling: Symphony of the Times", image: "static/images/group4/group4_image1.png" }
+                    { 
+                        name: "Melodic Encounters at Yuanling", 
+                        image: "static/images/group1/group1_image1.png",
+                        students:"Garnet, Christine, Coral",
+                        description: "Universal Music, Urban Vibrancy, Cultural Inheritance", 
+                    },
+                    { 
+                        name: "Young Shenzhen", 
+                        image: "static/images/group2/group2_image1.jpg",
+                        students:"Qian",
+                        description: "Age, Culture, Language, Life",
+                     },
+                    { 
+                        name: "Yuanling Sports", 
+                        image: "static/images/group3/group3_image1.png",
+                        students:"Hank",
+                        description: "Playground, Childhood, Sports",
+                    },
+                    { 
+                        name: "Voices of Yuanling: Symphony of the Times", 
+                        image: "static/images/group4/group4_image1.png",
+                        students:"Fred, Kara, Alan",
+                        description: "Intertemporal, Developmental, Narrative, Lifelike",
+                    }
                 ],
                 footerText: "SUSTech School fo Design, DS345, 2024",
             }
@@ -120,10 +140,30 @@ const languageData = {
                 preloadImage: "static/images/preload.png",
                 testButtonText: "测试",
                 groups: [
-                    { name: "声遇园岭", image: "static/images/group1/group1_image1.png" },
-                    { name: "童心深圳", image: "static/images/group2/group2_image1.jpg" },
-                    { name: "园岭，体育，深圳人这一生", image: "static/images/group3/group3_image1.png" },
-                    { name: "园岭之声：时代交响", image: "static/images/group4/group4_image1.png" }
+                    { 
+                        name: "声遇园岭", 
+                        image: "static/images/group1/group1_image1.png",
+                        students:"宫喜, 汪昱岑, 徐羽萱",
+                        description: "音乐无界，城市活力，文化传承", 
+                    },
+                    { 
+                        name: "童心深圳", 
+                        image: "static/images/group2/group2_image1.jpg",
+                        students:"许跃骞",
+                        description: "年龄，文化，语言，生活", 
+                    },
+                    { 
+                        name: "园岭，体育，深圳人这一生", 
+                        image: "static/images/group3/group3_image1.png",
+                        students:"吴业青",
+                        description: "体育，文化", 
+                    },
+                    { 
+                        name: "园岭之声：时代交响", 
+                        image: "static/images/group4/group4_image1.png",
+                        students:"杨熙楠，牛文可，许可",
+                        description: "跨时空，发展， 叙事性，生活化", 
+                     }
                 ],
                 footerText: "南方科技大学创新创意设计学院, DS345, 2024", 
             }
@@ -319,6 +359,22 @@ function updateTextAndAudio() {
                 const groupContent = document.createElement('div');
                 groupContent.className = 'group-content';
                 groupContent.textContent = group.name;
+
+
+                // create a heading for the group name
+                const groupStudents = document.createElement('h2');
+                groupStudents.className = 'group-students';
+                groupStudents.textContent = group.students;
+
+                // create a paragraph for the description
+                const groupDescription = document.createElement('p');
+                groupDescription.className = 'group-description';
+                groupDescription.textContent = group.description;
+
+                // append the name and description to the groupContent
+                groupContent.appendChild(groupStudents);
+                groupContent.appendChild(groupDescription);
+
 
                 groupContainer.appendChild(img);
                 groupContainer.appendChild(groupContent);
