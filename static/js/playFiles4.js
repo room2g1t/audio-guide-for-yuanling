@@ -158,19 +158,19 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
 
     loadAndPlayAudio(trackFile, false, fadeIn, function (player) {
         currentTrack = player;
-        isTrackLoading = false; // Reset loading flag
+        isTrackLoading = false; // reset loading flag
         console.log(`Playing track: ${trackFile}`);
-        updateBackgroundTrackVolume(); // Adjust background volume
+        updateBackgroundTrackVolume(); // adjust background volume
     });
 }
 
 function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -10) {
-    // Check if the audio file is preloaded
+    // check if the audio file is preloaded
     if (window.preloadedAudio && window.preloadedAudio[file]) {
         console.log(`Using preloaded audio for ${file}`);
         const player = window.preloadedAudio[file];
 
-        // Ensure the player is connected to destination
+        // ensure the player is connected to destination
         if (!player.connected) {
             player.toDestination();
             player.connected = true;
@@ -178,7 +178,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 
         player.loop = loop;
         player.volume.value = initialVolume;
-        player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
+        player.fadeIn = fadeInDuration / 1000; // convert ms to seconds
         player.fadeOut = fadeOutDuration / 1000;
         player.start();
         if (callback) callback(player);
@@ -188,18 +188,18 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
             url: file,
             autostart: false,
             loop: loop,
-            fadeOut: fadeOutDuration / 1000, // Convert ms to seconds
-            volume: initialVolume, // Set initial volume
+            fadeOut: fadeOutDuration / 1000, // convert ms to seconds
+            volume: initialVolume, // set initial volume
             onload: () => {
                 player.toDestination();
-                player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
+                player.fadeIn = fadeInDuration / 1000; // convert ms to seconds
                 player.start();
                 if (callback) callback(player);
-                // Add to preloadedAudio for future use
+                // add to preloadedAudio for future use
                 window.preloadedAudio[file] = player;
             },
             onstop: () => {
-                // Dispose of the player when it stops if it's not preloaded
+                // dispose of the player when it stops if it's not preloaded
                 if (!player.isPreloaded) {
                     player.dispose();
                     console.log(`Player for ${file} stopped and disposed.`);
@@ -209,7 +209,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
                 if (player === currentTrack) {
                     currentTrack = null;
                     currentlyPlayingLocation = null;
-                    updateBackgroundTrackVolume(); // Adjust background volume
+                    updateBackgroundTrackVolume(); // adjust background volume
                 }
             },
             onerror: (error) => {
@@ -222,10 +222,10 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 function updateBackgroundTrackVolume() {
     if (backgroundTrack) {
         if (currentTrack) {
-            // Other track is playing, fade background track volume down
+            // other track is playing, fade background track volume down
             backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            // No other tracks are playing, fade background track volume up
+            // no other tracks are playing, fade background track volume up
             backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }

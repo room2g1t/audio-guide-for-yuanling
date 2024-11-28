@@ -48,8 +48,8 @@ function startBackgroundTrack() {
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function (player) {
         backgroundTrack = player;
         console.log("Background track started.");
-        updateBackgroundTrackVolume(); // Adjust volume based on currentTrack
-    }, bgDynamicVolume); // Set initial volume
+        updateBackgroundTrackVolume(); // adjust volume based on currentTrack
+    }, bgDynamicVolume); // set initial volume
 }
 
 async function togglePlayback() {
@@ -67,13 +67,13 @@ async function togglePlayback() {
         isPlaying = true;
         playButton.src = 'static/images/pauseButton.png';
 
-        // Ensure the Tone.js audio context is started
+        // ensure the Tone.js audio context is started
         await userInteracted();
 
-        // Start the background track
+        // start the background track
         startBackgroundTrack();
 
-        // Get current location and handle location change
+        // get current location and handle location change
         if (typeof window.latitude !== 'undefined' && typeof window.longitude !== 'undefined') {
             handleLocationChange(window.latitude, window.longitude);
         } else {
@@ -108,14 +108,14 @@ async function togglePlayback() {
 
 function stopAllPlayback(userStopped = false) {
     if (currentTrack) {
-        currentTrack.stop(); // Stops with fade out applied
+        currentTrack.stop(); // stops with fade out applied
         // currentTrack and currentlyPlayingLocation will be reset in onstop handler
-        isTrackLoading = false; // Reset loading flag
-        updateBackgroundTrackVolume(); // Update background volume
+        isTrackLoading = false; // reset loading flag
+        updateBackgroundTrackVolume(); // update background volume
     }
 
     if (backgroundTrack) {
-        backgroundTrack.stop(); // Stops with fade out applied
+        backgroundTrack.stop(); // stops with fade out applied
         backgroundTrack = null;
         console.log("Background track stopped.");
     }
@@ -136,11 +136,11 @@ function playTrack(trackFile, locationKey) {
 
         let oldTrack = currentTrack;
 
-        // Start the new track
+        // start the new track
         startNewTrack(trackFile, locationKey, true);
 
-        // Stop the old track
-        oldTrack.stop(); // Stops with fade out applied
+        // stop the old track
+        oldTrack.stop(); // stops with fade out applied
     } else if (!currentTrack && !isTrackLoading) {
         startNewTrack(trackFile, locationKey, true);
     }
@@ -151,26 +151,26 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
         console.log('Track is already loading. Skipping startNewTrack.');
         return;
     }
-    isTrackLoading = true; // Set loading flag to true
-    currentlyPlayingLocation = locationKey; // Set this immediately
+    isTrackLoading = true; // set loading flag to true
+    currentlyPlayingLocation = locationKey; // set this immediately
 
     console.log(`Attempting to start new track: ${trackFile}`);
 
     loadAndPlayAudio(trackFile, false, fadeIn, function (player) {
         currentTrack = player;
-        isTrackLoading = false; // Reset loading flag
+        isTrackLoading = false; // reset loading flag
         console.log(`Playing track: ${trackFile}`);
-        updateBackgroundTrackVolume(); // Adjust background volume
+        updateBackgroundTrackVolume(); // adjust background volume
     });
 }
 
 function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -4) {
-    // Check if the audio file is preloaded
+    // check if the audio file is preloaded
     if (window.preloadedAudio && window.preloadedAudio[file]) {
         console.log(`Using preloaded audio for ${file}`);
         const player = window.preloadedAudio[file];
 
-        // Ensure the player is connected to destination
+        // ensure the player is connected to destination
         if (!player.connected) {
             player.toDestination();
             player.connected = true;
@@ -178,7 +178,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 
         player.loop = loop;
         player.volume.value = initialVolume;
-        player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
+        player.fadeIn = fadeInDuration / 1000; // convert ms to seconds
         player.fadeOut = fadeOutDuration / 1000;
         player.start();
         if (callback) callback(player);
@@ -188,18 +188,18 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
             url: file,
             autostart: false,
             loop: loop,
-            fadeOut: fadeOutDuration / 1000, // Convert ms to seconds
-            volume: initialVolume, // Set initial volume
+            fadeOut: fadeOutDuration / 1000, // convert ms to seconds
+            volume: initialVolume, // set initial volume
             onload: () => {
                 player.toDestination();
-                player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
+                player.fadeIn = fadeInDuration / 1000; // convert ms to seconds
                 player.start();
                 if (callback) callback(player);
-                // Add to preloadedAudio for future use
+                // add to preloadedAudio for future use
                 window.preloadedAudio[file] = player;
             },
             onstop: () => {
-                // Dispose of the player when it stops if it's not preloaded
+                // dispose of the player when it stops if it's not preloaded
                 if (!player.isPreloaded) {
                     player.dispose();
                     console.log(`Player for ${file} stopped and disposed.`);
@@ -209,7 +209,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
                 if (player === currentTrack) {
                     currentTrack = null;
                     currentlyPlayingLocation = null;
-                    updateBackgroundTrackVolume(); // Adjust background volume
+                    updateBackgroundTrackVolume(); // adjust background volume
                 }
             },
             onerror: (error) => {
@@ -222,10 +222,10 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 function updateBackgroundTrackVolume() {
     if (backgroundTrack) {
         if (currentTrack) {
-            // Other track is playing, fade background track volume down
+            // other track is playing, fade background track volume down
             backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            // No other tracks are playing, fade background track volume up
+            // no other tracks are playing, fade background track volume up
             backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }
