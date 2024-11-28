@@ -50,7 +50,6 @@ function startBackgroundTrack() {
     }, bgDynamicVolume); // set initial volume
 }
 
-
 async function togglePlayback() {
     let playButton = document.getElementById('playButton');
     let playTextElement = document.querySelector('.play-text');
@@ -96,11 +95,11 @@ async function togglePlayback() {
                 console.error('Geolocation is not supported by your browser.');
             }
         }
-        if (playTextElement) {
-            const playText = texts.playText;
-            if (playText) {
-                playTextElement.textContent = isPlaying ? playText.pause : playText.play;
-            }
+    }
+    if (playTextElement) {
+        const playText = texts.playText;
+        if (playText) {
+            playTextElement.textContent = isPlaying ? playText.pause : playText.play;
         }
     }
 }
@@ -168,7 +167,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
         autostart: false,
         loop: loop,
         fadeOut: fadeOutDuration / 1000, // Convert ms to seconds
-        volume: initialVolume, //set initial volume
+        volume: initialVolume, // Set initial volume
         onload: () => {
             player.toDestination();
             player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
@@ -202,7 +201,6 @@ function updateBackgroundTrackVolume() {
         }
     }
 }
-
 
 async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);
