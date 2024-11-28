@@ -74,34 +74,35 @@ const audioFilesByGroup = {
     ]
 };
 
-function startPreloading() {
-    // Clear previous cache
-    window.preloadedAudio = {};
-    window.preloadingComplete = false;
-
-    // Remove previous group buttons if any
+function toggleGroupButtons() {
     const groupButtonsContainer = document.getElementById('groupButtonsContainer');
     if (groupButtonsContainer) {
-        groupButtonsContainer.innerHTML = ''; // Clear existing buttons
-    }
+        if (groupButtonsContainer.style.display === 'none' || groupButtonsContainer.style.display === '') {
+            // Show the group buttons
+            groupButtonsContainer.style.display = 'flex';
 
-    // Create buttons for groups 1-4
-    for (let i = 1; i <= 4; i++) {
-        const groupButton = document.createElement('button');
-        groupButton.innerText = `${i}`;
-        groupButton.id = `groupButton${i}`;
-        groupButton.className = 'group-button'; // Add CSS class
-        groupButton.addEventListener('click', function() {
-            preloadGroup(i);
-        });
-        groupButtonsContainer.appendChild(groupButton);
-    }
-
-    // Disable the preload button and update its text
-    const preloadButton = document.getElementById('preloadIcon');
-    if (preloadButton) {
-        preloadButton.disabled = true; // Disable the button to prevent multiple clicks
-        preloadButton.innerText = 'Select a group to preload';
+            // Create group buttons if they don't exist
+            if (groupButtonsContainer.children.length === 0) {
+                // Create buttons for groups 1-4
+                for (let i = 1; i <= 4; i++) {
+                    const groupButton = document.createElement('button');
+                    groupButton.innerText = `${i}`;
+                    groupButton.id = `groupButton${i}`;
+                    groupButton.className = 'group-button'; // Add CSS class
+                    groupButton.addEventListener('click', function () {
+                        preloadGroup(i);
+                    });
+                    groupButtonsContainer.appendChild(groupButton);
+                }
+            }
+        } else {
+            // Hide the group buttons
+            groupButtonsContainer.style.display = 'none';
+            // Clear the cache
+            window.preloadedAudio = {};
+            window.preloadingComplete = false;
+            console.log('Cache cleared.');
+        }
     }
 }
 
@@ -170,8 +171,13 @@ function preloadGroup(groupNumber) {
 document.addEventListener('DOMContentLoaded', function () {
     const preloadButton = document.getElementById('preloadIcon');
     if (preloadButton) {
-        preloadButton.addEventListener('click', startPreloading);
+        preloadButton.addEventListener('click', toggleGroupButtons);
     } else {
         console.error("Preload button not found.");
+    }
+    // Initially hide group buttons
+    const groupButtonsContainer = document.getElementById('groupButtonsContainer');
+    if (groupButtonsContainer) {
+        groupButtonsContainer.style.display = 'none';
     }
 });
