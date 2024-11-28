@@ -98,8 +98,8 @@ function toggleGroupButtons() {
         } else {
             // Hide the group buttons
             groupButtonsContainer.style.display = 'none';
-            // Clear the cache
-            window.preloadedAudio = {};
+            // Clear the cache and dispose of preloaded players
+            clearPreloadedAudio();
             window.preloadingComplete = false;
             console.log('Cache cleared.');
         }
@@ -129,6 +129,9 @@ function preloadGroup(groupNumber) {
                 onload: () => {
                     loadedCount++;
                     console.log(`Loaded ${file}`);
+                    player.isPreloaded = true; // Mark this player as preloaded
+                    player.toDestination();
+                    player.connected = true; // Mark as connected
                     window.preloadedAudio[file] = player;
                     checkIfAllFilesLoaded();
                 },
@@ -139,7 +142,7 @@ function preloadGroup(groupNumber) {
                     window.preloadedAudio[file] = null;
                     checkIfAllFilesLoaded();
                 }
-            }).toDestination();
+            });
         } else {
             // If already preloaded, increment loadedCount
             loadedCount++;
@@ -165,6 +168,18 @@ function preloadGroup(groupNumber) {
             }
         }
     }
+}
+
+function clearPreloadedAudio() {
+    // Dispose of all preloaded players
+    for (let file in window.preloadedAudio) {
+        const player = window.preloadedAudio[file];
+        if (player && typeof player.dispose === 'function') {
+            player.dispose();
+            console.log(`Disposed player for ${file}`);
+        }
+    }
+    window.preloadedAudio = {};
 }
 
 // Attach event listener to preload button
