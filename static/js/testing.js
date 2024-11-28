@@ -55,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function () {
         group3: {
             bgFadeDuration: 1800,
             bgDynamicVolume: -4,
-            backgroundVolume: -11,
-            tracksVolume: -7,
+            backgroundVolume: -14,
+            tracksVolume: -4,
         },
         group4: {
             bgFadeDuration: 2000,
             bgDynamicVolume: -3,
             backgroundVolume: -26,
-            tracksVolume: -15,
+            tracksVolume: -10,
         },
     };
     
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sqData.y,
                 sqData.w,
                 sqData.h,
-                p5Instance.color(255, 0, 0, 100),
+                p5Instance.color(255, 0, 0, 0),
                 sqData.number
             ));
         } else {
@@ -394,7 +394,7 @@ function getWeight(square, dotX, dotY) {
         }
 
         showNumber() {
-            p5Instance.fill(255, 0, 0, 100);
+            p5Instance.fill(255, 0, 0, 0);
             p5Instance.textSize(this.w * 0.8);
             p5Instance.textAlign(p5Instance.CENTER, p5Instance.CENTER);
             p5Instance.textFont('Arial');
@@ -640,7 +640,7 @@ function getWeight(square, dotX, dotY) {
         p.addSquare = function() {
             let maxNumber = blueSquares.reduce((max, square) => Math.max(max, square.number), 0);
             let newNumber = maxNumber + 1;
-            blueSquares.push(new DraggableSquare(150, 150, 80, 80, p.color(255, 0, 0, 100), newNumber));
+            blueSquares.push(new DraggableSquare(150, 150, 80, 80, p.color(255, 0, 0, 0), newNumber));
             p.saveBlueSquares(); 
         };
         

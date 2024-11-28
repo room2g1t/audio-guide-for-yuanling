@@ -23,7 +23,7 @@ let backgroundTrack = null;
 let isTrackLoading = false;
 
 let bgFadeDuration = 2000; // fade in/out duration in milliseconds
-let bgDynamicVolume = -6;  // volume in dB when no other tracks are playing
+let bgDynamicVolume = -5;  // volume in dB when no other tracks are playing
 let backgroundVolume = -64;
 
 async function userInteracted() {
