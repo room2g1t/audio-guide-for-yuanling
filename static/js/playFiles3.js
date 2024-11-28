@@ -26,36 +26,28 @@ let bgFadeDuration = 2000; // fade in/out duration in milliseconds
 let bgDynamicVolume = -4;  // volume in dB when no other tracks are playing
 let backgroundVolume = -14;
 
-
 async function userInteracted() {
     if (!window.audioContextStarted) {
         try {
             await Tone.start();
             window.audioContextStarted = true;
-            console.log('Audio context started.');
+            console.log('audio context started.');
         } catch (error) {
-            console.error('Failed to start audio context:', error);
+            console.error('failed to start audio context:', error);
         }
     } else {
-        console.log('Audio context already started.');
+        console.log('audio context already started.');
     }
 }
 
-// Background track
+// background track
 function startBackgroundTrack() {
     const backgroundFile = "static/audio/group3/group3_background3.mp3";
-    backgroundTrack = window.preloadedAudio[backgroundFile];
-    if (!backgroundTrack) {
-        console.error(`No preloaded background track found for ${backgroundFile}`);
-        return;
-    }
-    backgroundTrack.loop = true;
-    backgroundTrack.volume.value = bgDynamicVolume; // Set initial volume
-    backgroundTrack.fadeIn = bgFadeDuration / 1000; // Convert ms to seconds
-    backgroundTrack.fadeOut = fadeOutDuration / 1000; // Convert ms to seconds
-    backgroundTrack.start();
-    console.log("Background track started.");
-    updateBackgroundTrackVolume(); // Adjust volume based on currentTrack
+    loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function(player) {
+        backgroundTrack = player;
+        console.log("background track started.");
+        updateBackgroundTrackVolume(); // adjust volume based on currentTrack
+    }, bgDynamicVolume); // set initial volume
 }
 
 async function togglePlayback() {
@@ -70,21 +62,16 @@ async function togglePlayback() {
         playButton.src = 'static/images/playButton.png';
         isPlaying = false;
     } else {
-        if (!window.preloadingComplete) {
-            alert('Please wait until preloading is complete.');
-            return;
-        }
-
         isPlaying = true;
         playButton.src = 'static/images/pauseButton.png';
 
-        // Ensure the Tone.js audio context is started
+        // ensure the Tone.js audio context is started
         await userInteracted();
 
-        // Start the background track
+        // start the background track
         startBackgroundTrack();
 
-        // If current location is available, call handleLocationChange()
+        // if current location is available, call handleLocationChange()
         if (typeof window.latitude !== 'undefined' && typeof window.longitude !== 'undefined') {
             handleLocationChange(window.latitude, window.longitude);
         } else {
@@ -119,69 +106,90 @@ async function togglePlayback() {
 
 function stopAllPlayback(userStopped = false) {
     if (currentTrack) {
-        currentTrack.stop(); // Stops immediately with fade out applied
+        currentTrack.stop(); // stops immediately with fade out applied
         currentTrack = null;
         currentlyPlayingLocation = null;
-        isTrackLoading = false; // Reset loading flag
+        isTrackLoading = false; // reset loading flag
         updateBackgroundTrackVolume(); // Update background volume
     }
 
     if (backgroundTrack) {
-        backgroundTrack.stop(); // Stops with fade out applied
+        backgroundTrack.stop(); // stops with fade out applied
         backgroundTrack = null;
-        console.log("Background track stopped.");
+        console.log("background track stopped.");
     }
 
     if (userStopped) {
         isPlaying = false;
-        console.log("User stopped playback.");
+        console.log("user stopped playback.");
     } else {
-        console.log("Playback stopped due to location change.");
+        console.log("playback stopped due to location change.");
     }
 }
 
 function playTrack(trackFile, locationKey) {
     if ((currentTrack || isTrackLoading) && currentlyPlayingLocation === locationKey) return;
 
-    let player = window.preloadedAudio[trackFile];
-    if (!player) {
-        console.error(`No preloaded track found for ${trackFile}`);
-        return;
-    }
-
     if (currentTrack && currentlyPlayingLocation !== locationKey) {
-        console.log('Crossfading to new track...');
+        console.log('crossfading to new track...');
 
         let oldTrack = currentTrack;
 
-        // Start the new track
-        startNewTrack(player, locationKey, true);
+        // start the new track
+        startNewTrack(trackFile, locationKey, true);
 
-        // Stop the old track
-        oldTrack.stop(); // Stops with fade out applied
+        // stop the old track
+        oldTrack.stop(); // stops with fade out applied
     } else if (!currentTrack && !isTrackLoading) {
-        startNewTrack(player, locationKey, true);
+        startNewTrack(trackFile, locationKey, true);
     }
 }
 
-function startNewTrack(player, locationKey, fadeIn = false) {
+function startNewTrack(trackFile, locationKey, fadeIn = false) {
     if (isTrackLoading) {
-        console.log('Track is already loading. Skipping startNewTrack.');
+        console.log('track is already loading. Skipping startNewTrack.');
         return;
     }
-    isTrackLoading = true; // Set loading flag to true
-    currentlyPlayingLocation = locationKey; // Set this immediately
+    isTrackLoading = true; // set loading flag to true
+    currentlyPlayingLocation = locationKey; // set this immediately
 
-    console.log(`Attempting to start new track for location: ${locationKey}`);
+    console.log(`attempting to start new track: ${trackFile}`);
 
-    player.loop = false;
-    player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
-    player.fadeOut = fadeOutDuration / 1000; // Convert ms to seconds
-    player.start();
-    currentTrack = player;
-    isTrackLoading = false; // Reset loading flag
-    console.log(`Playing preloaded track for location: ${locationKey}`);
-    updateBackgroundTrackVolume(); // Adjust background volume
+    loadAndPlayAudio(trackFile, false, fadeIn, function(player) {
+        currentTrack = player;
+        isTrackLoading = false; // reset loading flag
+        console.log(`playing track: ${trackFile}`);
+        updateBackgroundTrackVolume(); // Adjust background volume
+    });
+}
+
+function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -8) {
+    const player = new Tone.Player({
+        url: file,
+        autostart: false,
+        loop: loop,
+        fadeOut: fadeOutDuration / 1000, // Convert ms to seconds
+        volume: initialVolume, // Set initial volume
+        onload: () => {
+            player.toDestination();
+            player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
+            player.start();
+            if (callback) callback(player);
+        },
+        onstop: () => {
+            // Dispose of the player when it stops
+            player.dispose();
+            console.log(`Player for ${file} stopped and disposed.`);
+            if (player === currentTrack) {
+                currentTrack = null;
+                currentlyPlayingLocation = null;
+                updateBackgroundTrackVolume(); // Adjust background volume
+            }
+        },
+        onerror: (error) => {
+            console.error(`error loading ${file}:`, error);
+        }
+    });
 }
 
 function updateBackgroundTrackVolume() {
@@ -200,7 +208,7 @@ async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);
 
     if (!isPlaying) {
-        console.log("Playback is not active. Ignoring GPS location check.");
+        console.log("playback is not active. Ignoring GPS location check.");
         return;
     }
 
