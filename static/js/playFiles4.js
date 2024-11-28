@@ -153,7 +153,7 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
     });
 }
 
-function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = 0) {
+function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -10) {
     const player = new Tone.Player({
         url: file,
         autostart: false,

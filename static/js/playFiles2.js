@@ -162,13 +162,13 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
     });
 }
 
-function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = 0) {
+function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -8) {
     const player = new Tone.Player({
         url: file,
         autostart: false,
         loop: loop,
         fadeOut: fadeOutDuration / 1000, // Convert ms to seconds
-        volume: initialVolume, // Set initial volume
+        volume: initialVolume, //set initial volume
         onload: () => {
             player.toDestination();
             player.fadeIn = fadeInDuration / 1000; // Convert ms to seconds
