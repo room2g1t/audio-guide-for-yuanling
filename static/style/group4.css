@@ -2,7 +2,7 @@ h1 {
     color: #000000;
     font-weight: 800;
     margin-left: 5%;
-    font-size: 5vw;
+    font-size: 4.5vw;
 }
 
 html, body {
@@ -30,6 +30,7 @@ button {
     padding: 10px 20px;
     border: none;
 }
+
 
 #languageToggleButton {
     display: flex;
@@ -96,7 +97,6 @@ button {
     top: 5vh;
 }
 
-
 label {
     font-size: 3vw;
     margin-top: 0px;
@@ -154,4 +154,3 @@ label {
     height: auto;
     margin-right: 10px; 
 }
-
