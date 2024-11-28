@@ -110,6 +110,7 @@ function stopAllPlayback(userStopped = false) {
         currentTrack = null;
         currentlyPlayingLocation = null;
         isTrackLoading = false; // reset loading flag
+        updateBackgroundTrackVolume(); // Update background volume
     }
 
     if (backgroundTrack) {
@@ -158,6 +159,7 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
         currentTrack = player;
         isTrackLoading = false; // reset loading flag
         console.log(`playing track: ${trackFile}`);
+        updateBackgroundTrackVolume(); // Adjust background volume
     });
 }
 
@@ -181,7 +183,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
             if (player === currentTrack) {
                 currentTrack = null;
                 currentlyPlayingLocation = null;
-                updateBackgroundTrackVolume();
+                updateBackgroundTrackVolume(); // Adjust background volume
             }
         },
         onerror: (error) => {
@@ -193,10 +195,10 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 function updateBackgroundTrackVolume() {
     if (backgroundTrack) {
         if (currentTrack) {
-            // other track is playing, fade background track volume down
+            // Other track is playing, fade background track volume down
             backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            // no other tracks are playing, fade background track volume up
+            // No other tracks are playing, fade background track volume up
             backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }
@@ -232,25 +234,15 @@ async function handleLocationChange(latitude, longitude) {
         playTrack(tracks["location4"], "location4");
     } else {
         console.log("no track assigned for this location.");
-        // optionally, stop the current track if not in any location
+        // Stop the current track if not in any location
         if (currentTrack) {
             currentTrack.fadeOut = fadeOutDuration / 1000; // in seconds
             currentTrack.stop("+0"); // stops with fade out applied
             currentTrack = null;
             currentlyPlayingLocation = null;
+            updateBackgroundTrackVolume(); // Adjust background volume
         }
     }
-
-    if (backgroundTrack) {
-        if (playingSquares.length > 0) {
-            // other tracks are playing, fade background track volume down to backgroundVolume (slider value)
-            backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration);
-        } else {
-            // no other tracks are playing, fade background track volume up to bgDynamicVolume
-            backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration);
-        }
-    }
-    
 }
 
 // attach handleLocationChange to the window object so it can be accessed globally

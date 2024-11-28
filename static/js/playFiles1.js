@@ -110,6 +110,7 @@ function stopAllPlayback(userStopped = false) {
         currentTrack = null;
         currentlyPlayingLocation = null;
         isTrackLoading = false; // reset loading flag
+        updateBackgroundTrackVolume(); // Update background volume
     }
 
     if (backgroundTrack) {
@@ -158,10 +159,11 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
         currentTrack = player;
         isTrackLoading = false; // reset loading flag
         console.log(`playing track: ${trackFile}`);
+        updateBackgroundTrackVolume(); // Adjust background volume
     });
 }
 
-function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -4) {
+function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -8) {
     const player = new Tone.Player({
         url: file,
         autostart: false,
@@ -181,7 +183,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
             if (player === currentTrack) {
                 currentTrack = null;
                 currentlyPlayingLocation = null;
-                updateBackgroundTrackVolume();
+                updateBackgroundTrackVolume(); // Adjust background volume
             }
         },
         onerror: (error) => {
@@ -193,15 +195,14 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 function updateBackgroundTrackVolume() {
     if (backgroundTrack) {
         if (currentTrack) {
-            // other track is playing, fade background track volume down
+            // Other track is playing, fade background track volume down
             backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            // no other tracks are playing, fade background track volume up
+            // No other tracks are playing, fade background track volume up
             backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }
 }
-
 
 async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);

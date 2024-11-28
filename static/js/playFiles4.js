@@ -26,6 +26,7 @@ let bgFadeDuration = 2000; // fade in/out duration in milliseconds
 let bgDynamicVolume = -3;  // volume in dB when no other tracks are playing
 let backgroundVolume = -26;
 
+
 async function userInteracted() {
     if (!window.audioContextStarted) {
         try {
@@ -50,9 +51,12 @@ function startBackgroundTrack() {
     }, bgDynamicVolume); // set initial volume
 }
 
-
 async function togglePlayback() {
     let playButton = document.getElementById('playButton');
+    let playTextElement = document.querySelector('.play-text');
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
+    let currentPage = document.body.dataset.page;
+    let texts = languageData[currentLanguage][currentPage].texts;
 
     if (isPlaying) {
         stopAllPlayback(true);
@@ -61,7 +65,6 @@ async function togglePlayback() {
     } else {
         isPlaying = true;
         playButton.src = 'static/images/pauseButton.png';
-        console.log("user initiated playback. GPS-based playback now enabled.");
 
         // ensure the Tone.js audio context is started
         await userInteracted();
@@ -94,6 +97,12 @@ async function togglePlayback() {
             }
         }
     }
+    if (playTextElement) {
+        const playText = texts.playText;
+        if (playText) {
+            playTextElement.textContent = isPlaying ? playText.pause : playText.play;
+        }
+    }
 }
 
 function stopAllPlayback(userStopped = false) {
@@ -102,6 +111,7 @@ function stopAllPlayback(userStopped = false) {
         currentTrack = null;
         currentlyPlayingLocation = null;
         isTrackLoading = false; // reset loading flag
+        updateBackgroundTrackVolume(); // Update background volume
     }
 
     if (backgroundTrack) {
@@ -150,10 +160,11 @@ function startNewTrack(trackFile, locationKey, fadeIn = false) {
         currentTrack = player;
         isTrackLoading = false; // reset loading flag
         console.log(`playing track: ${trackFile}`);
+        updateBackgroundTrackVolume(); // Adjust background volume
     });
 }
 
-function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -10) {
+function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initialVolume = -8) {
     const player = new Tone.Player({
         url: file,
         autostart: false,
@@ -173,7 +184,7 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
             if (player === currentTrack) {
                 currentTrack = null;
                 currentlyPlayingLocation = null;
-                updateBackgroundTrackVolume();
+                updateBackgroundTrackVolume(); // Adjust background volume
             }
         },
         onerror: (error) => {
@@ -185,15 +196,14 @@ function loadAndPlayAudio(file, loop = true, fadeInDuration = 0, callback, initi
 function updateBackgroundTrackVolume() {
     if (backgroundTrack) {
         if (currentTrack) {
-            // other track is playing, fade background track volume down
+            // Other track is playing, fade background track volume down
             backgroundTrack.volume.rampTo(backgroundVolume, bgFadeDuration / 1000);
         } else {
-            // no other tracks are playing, fade background track volume up
+            // No other tracks are playing, fade background track volume up
             backgroundTrack.volume.rampTo(bgDynamicVolume, bgFadeDuration / 1000);
         }
     }
 }
-
 
 async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);
@@ -208,7 +218,6 @@ async function handleLocationChange(latitude, longitude) {
     }
 
     let tracks = getTracks();
-
 // square1: bottom left lat: 22.5512, long: 114.0966, top right lat: 22.5522, long: 114.0974
 // square2: bottom left lat: 22.5516, long: 114.0950, top right lat: 22.5524, long: 114.0964
 // square3: bottom left lat: 22.5520, long: 114.0933, top right lat: 22.5527, long: 114.0950
