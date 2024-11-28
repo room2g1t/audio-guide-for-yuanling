@@ -33,34 +33,34 @@ function startPreloading() {
             "static/audio/group2/english/group2_track3.mp3",
             "static/audio/group2/english/group2_track4.mp3",
 
-            // group 3
-            // chinese
-            "static/audio/group3/chinese/group3_track1.mp3",
-            "static/audio/group3/chinese/group3_track2.mp3",
-            "static/audio/group3/chinese/group3_track3.mp3",
-            "static/audio/group3/chinese/group3_track4.mp3",
-            // english
-            "static/audio/group3/english/group3_track1.mp3",
-            "static/audio/group3/english/group3_track2.mp3",
-            "static/audio/group3/chinese/group3_track3.mp3",
-            "static/audio/group3/chinese/group3_track4.mp3",
-            // add more below...
+            // // group 3
+            // // chinese
+            // "static/audio/group3/chinese/group3_track1.mp3",
+            // "static/audio/group3/chinese/group3_track2.mp3",
+            // "static/audio/group3/chinese/group3_track3.mp3",
+            // "static/audio/group3/chinese/group3_track4.mp3",
+            // // english
+            // "static/audio/group3/english/group3_track1.mp3",
+            // "static/audio/group3/english/group3_track2.mp3",
+            // "static/audio/group3/chinese/group3_track3.mp3",
+            // "static/audio/group3/chinese/group3_track4.mp3",
+            // // add more below...
 
-            // group 4
-            // chinese
-            "static/audio/group4/chinese/group4_track1.mp3",
-            "static/audio/group4/chinese/group4_track2.mp3",
-            "static/audio/group4/chinese/group4_track3.mp3",
-            "static/audio/group4/chinese/group4_track4.mp3",
-            "static/audio/group4/chinese/group4_track5.mp3",
-            "static/audio/group4/chinese/group4_track6.mp3",
-            // english
-            "static/audio/group4/english/group4_track1.mp3",
-            "static/audio/group4/english/group4_track2.mp3",
-            "static/audio/group4/english/group4_track3.mp3",
-            "static/audio/group4/english/group4_track4.mp3",
-            "static/audio/group4/english/group4_track5.mp3",
-            "static/audio/group4/english/group4_track6.mp3",
+            // // group 4
+            // // chinese
+            // "static/audio/group4/chinese/group4_track1.mp3",
+            // "static/audio/group4/chinese/group4_track2.mp3",
+            // "static/audio/group4/chinese/group4_track3.mp3",
+            // "static/audio/group4/chinese/group4_track4.mp3",
+            // "static/audio/group4/chinese/group4_track5.mp3",
+            // "static/audio/group4/chinese/group4_track6.mp3",
+            // // english
+            // "static/audio/group4/english/group4_track1.mp3",
+            // "static/audio/group4/english/group4_track2.mp3",
+            // "static/audio/group4/english/group4_track3.mp3",
+            // "static/audio/group4/english/group4_track4.mp3",
+            // "static/audio/group4/english/group4_track5.mp3",
+            // "static/audio/group4/english/group4_track6.mp3",
 
             // background track
             "static/audio/group1/group1_background.mp3",
