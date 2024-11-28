@@ -63,10 +63,10 @@ function startPreloading() {
             // "static/audio/group4/english/group4_track6.mp3",
 
             // background track
-            "static/audio/group1/group1_background.mp3",
-            "static/audio/group2/group2_background.mp3",
-            "static/audio/group3/group3_background.mp3",
-            "static/audio/group4/group4_background.mp3"
+            "static/audio/group1/group1_background1.mp3",
+            "static/audio/group2/group2_background2.mp3",
+            "static/audio/group3/group3_background3.mp3",
+            "static/audio/group4/group4_background4.mp3"
 
         ];
 
