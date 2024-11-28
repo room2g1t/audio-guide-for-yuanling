@@ -43,7 +43,7 @@ async function userInteracted() {
 
 // background track
 function startBackgroundTrack() {
-    const backgroundFile = "static/audio/group1/group1_background1.mp3";
+    const backgroundFile = "static/audio/group2/group2_background2.mp3";
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function(player) {
         backgroundTrack = player;
         console.log("background track started.");
@@ -218,7 +218,7 @@ async function handleLocationChange(latitude, longitude) {
     }
 
     let tracks = getTracks();
-    
+
     // square1: bottom left lat: 22.5523, long: 114.0950, top right lat: 22.5530, long: 114.0963
     // square2: bottom left lat: 22.5527, long: 114.0933, top right lat: 22.5533, long: 114.0947
     // square3: bottom left lat: 22.5516, long: 114.0934, top right lat: 22.5522, long: 114.0949
