@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         group2: {
             bgFadeDuration: 1500,
             bgDynamicVolume: -5,
-            backgroundVolume: -10,
+            backgroundVolume: -64,
             tracksVolume: -8,
         },
         group3: {

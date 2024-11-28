@@ -209,19 +209,20 @@ async function handleLocationChange(latitude, longitude) {
 
     let tracks = getTracks();
 
+    // square1: bottom left lat: 22.5519, long: 114.0953, top right lat: 22.5536, long: 114.0961
+    // square2: bottom left lat: 22.5533, long: 114.0931, top right lat: 22.5539, long: 114.0950
+    // square3: bottom left lat: 22.5527, long: 114.0918, top right lat: 22.5544, long: 114.0932
+    // square4: bottom left lat: 22.5523, long: 114.0918, top right lat: 22.5516, long: 114.0966
+
     // adjust the following conditions for actual location-based playback
-    if (latitude > 22.5974 && latitude < 22.5980 && longitude > 113.9990 && longitude < 114) {
+    if (latitude > 22.5519 && latitude < 22.5536 && longitude > 114.0953 && longitude < 114.0961) {
         playTrack(tracks["location1"], "location1");
-    } else if (latitude > 22.5971 && latitude < 22.5974 && longitude > 113.9990 && longitude < 114) {
+    } else if (latitude > 22.5533 && latitude < 22.5539 && longitude > 114.0931 && longitude < 114.0950) {
         playTrack(tracks["location2"], "location2");
-    } else if (latitude > 22.5967 && latitude < 22.5971 && longitude > 113.9980 && longitude < 114) {
+    } else if (latitude > 22.5527 && latitude < 22.5544 && longitude > 114.0918 && longitude < 114.0932) {
         playTrack(tracks["location3"], "location3");
-    } else if (latitude > 22.5957 && latitude < 22.5967 && longitude > 113.9980 && longitude < 114) {
+    } else if (latitude > 22.5523 && latitude < 22.5516 && longitude > 114.0918 && longitude < 114.0966) {
         playTrack(tracks["location4"], "location4");
-    } else if (latitude > 22.5952 && latitude < 22.5957 && longitude > 113.9970 && longitude < 113.9990) {
-        playTrack(tracks["location5"], "location5");
-    } else if (latitude > 22.5530 && latitude < 22.5540 && longitude > 114.0930 && longitude < 114.0940) {
-        playTrack(tracks["location6"], "location6");
     } else {
         console.log("no track assigned for this location.");
         // optionally, stop the current track if not in any location

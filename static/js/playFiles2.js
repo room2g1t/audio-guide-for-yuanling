@@ -24,7 +24,7 @@ let isTrackLoading = false;
 
 let bgFadeDuration = 2000; // fade in/out duration in milliseconds
 let bgDynamicVolume = -6;  // volume in dB when no other tracks are playing
-let backgroundVolume = -12;
+let backgroundVolume = -64;
 
 async function userInteracted() {
     if (!window.audioContextStarted) {
@@ -218,19 +218,20 @@ async function handleLocationChange(latitude, longitude) {
 
     let tracks = getTracks();
 
+    // square1: bottom left lat: 22.5523, long: 114.0950, top right lat: 22.5530, long: 114.0963
+    // square2: bottom left lat: 22.5527, long: 114.0933, top right lat: 22.5533, long: 114.0947
+    // square3: bottom left lat: 22.5516, long: 114.0934, top right lat: 22.5522, long: 114.0949
+    // square4: bottom left lat: 22.5511, long: 114.0951, top right lat: 22.5518, long: 114.0965
+
     // adjust the following conditions for actual location-based playback
-    if (latitude > 22.5974 && latitude < 22.5980 && longitude > 113.9990 && longitude < 114) {
+    if (latitude > 22.5523 && latitude < 22.5530 && longitude > 114.0950 && longitude < 114.0963) {
         playTrack(tracks["location1"], "location1");
-    } else if (latitude > 22.5971 && latitude < 22.5974 && longitude > 113.9990 && longitude < 114) {
+    } else if (latitude > 22.5527 && latitude < 22.5533 && longitude > 114.0933 && longitude < 114.0947) {
         playTrack(tracks["location2"], "location2");
-    } else if (latitude > 22.5967 && latitude < 22.5971 && longitude > 113.9980 && longitude < 114) {
+    } else if (latitude > 22.5516 && latitude < 22.5522 && longitude > 114.0934 && longitude < 114.0949) {
         playTrack(tracks["location3"], "location3");
-    } else if (latitude > 22.5957 && latitude < 22.5967 && longitude > 113.9980 && longitude < 114) {
+    } else if (latitude > 22.5511 && latitude < 22.5518 && longitude > 114.0951 && longitude < 114.0965) {
         playTrack(tracks["location4"], "location4");
-    } else if (latitude > 22.5952 && latitude < 22.5957 && longitude > 113.9970 && longitude < 113.9990) {
-        playTrack(tracks["location5"], "location5");
-    } else if (latitude > 22.5530 && latitude < 22.5540 && longitude > 114.0930 && longitude < 114.0940) {
-        playTrack(tracks["location6"], "location6");
     } else {
         console.log("no track assigned for this location.");
         // optionally, stop the current track if not in any location
