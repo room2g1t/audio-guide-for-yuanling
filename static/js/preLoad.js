@@ -11,12 +11,15 @@ function startPreloading() {
             "static/audio/group1/chinese/group1_track2.mp3",
             "static/audio/group1/chinese/group1_track3.mp3",
             "static/audio/group1/chinese/group1_track4.mp3",
+            "static/audio/group1/chinese/group1_track5.mp3",
+            "static/audio/group1/chinese/group1_track6.mp3",
             // english
             "static/audio/group1/english/group1_track1.mp3",
             "static/audio/group1/english/group1_track2.mp3",
             "static/audio/group1/english/group1_track3.mp3",
             "static/audio/group1/english/group1_track4.mp3",
-            // add more below...
+            "static/audio/group1/english/group1_track5.mp3",
+            "static/audio/group1/english/group1_track6.mp3",
 
             // group 2
             // chinese

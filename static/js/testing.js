@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
             { x: 50, y: 615, w: 615, h: 90, number: 4 },
         ],
         group4: [
-            { x: 639, y: 522, w: 145, h: 150, number: 1 },
-            { x: 447, y: 352, w: 210, h: 185, number: 5 },
-            { x: 444, y: 528, w: 215, h: 145, number: 2 },
-            { x: 644, y: 357, w: 145, h: 180, number: 6 },
-            { x: 236, y: 356, w: 225, h: 160, number: 4 },
-            { x: 239, y: 502, w: 220, h: 170, number: 3 },
+            { x: 235, y: 389, w: 245, h: 125, number: 4 },
+            { x: 237, y: 503, w: 235, h: 185, number: 3 },
+            { x: 656, y: 498, w: 140, h: 185, number: 1 },
+            { x: 454, y: 496, w: 215, h: 190, number: 2 },
+            { x: 466, y: 391, w: 210, h: 120, number: 5 },
+            { x: 658, y: 386, w: 145, h: 125, number: 6 },
         ],
     };
     
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sqData.y,
                 sqData.w,
                 sqData.h,
-                p5Instance.color(255, 0, 0, 0),
+                p5Instance.color(255, 0, 0, 100),
                 sqData.number
             ));
         } else {
@@ -394,7 +394,7 @@ function getWeight(square, dotX, dotY) {
         }
 
         showNumber() {
-            p5Instance.fill(255, 0, 0, 0);
+            p5Instance.fill(255, 0, 0, 100);
             p5Instance.textSize(this.w * 0.8);
             p5Instance.textAlign(p5Instance.CENTER, p5Instance.CENTER);
             p5Instance.textFont('Arial');
