@@ -70,7 +70,7 @@ body {
     min-height: 100vh;
     background-color: #ffffff;
     color: #000000; 
-    padding-top: 7vh;
+    /* padding-top: 7vh; */
 }
 
 /* navigation styles */

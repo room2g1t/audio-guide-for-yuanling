@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
             bgFadeDuration: 2000,
             bgDynamicVolume: -3,
             backgroundVolume: -26,
-            tracksVolume: -24,
+            tracksVolume: -15,
         },
     };
     
