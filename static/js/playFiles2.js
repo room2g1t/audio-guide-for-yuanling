@@ -257,7 +257,7 @@ async function handleLocationChange(latitude, longitude) {
         playTrack(tracks["location2"], "location2");
     } else if (latitude > 22.5516 && latitude < 22.5522 && longitude > 114.0934 && longitude < 114.0949) {
         playTrack(tracks["location3"], "location3");
-    } else if (latitude > 22.5519 && latitude < 22.5526 && longitude > 114.0948 && longitude < 114.0962) {
+    } else if (latitude > 22.5519 && latitude < 22.5533 && longitude > 114.0948 && longitude < 114.0970) {
         playTrack(tracks["location4"], "location4");
     } else {
         console.log("no track assigned for this location.");
