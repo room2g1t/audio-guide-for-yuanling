@@ -253,17 +253,17 @@ async function handleLocationChange(latitude, longitude) {
     // square6: bottom left lat: 22.5512, long: 114.0967, top right lat: 22.5534, long: 114.0969
 
     // adjust the following conditions for actual location-based playback
-    if (latitude > 22.5525 && latitude < 22.5546 && longitude > 114.0914 && longitude < 114.0920) {
+    if (latitude > 22.5521 && latitude < 22.5543 && longitude > 114.0913 && longitude < 114.0916) {
         playTrack(tracks["location1"], "location1");
-    } else if (latitude > 22.5524 && latitude < 22.5543 && longitude > 114.0918 && longitude < 114.0933) {
+    } else if (latitude > 22.5521 && latitude < 22.5543 && longitude > 114.0916 && longitude < 114.0932) {
         playTrack(tracks["location2"], "location2");
-    } else if (latitude > 22.5520 && latitude < 22.5540 && longitude > 114.0933 && longitude < 114.0942) {
+    } else if (latitude > 22.5521 && latitude < 22.5543 && longitude > 114.0932 && longitude < 114.0947) {
         playTrack(tracks["location3"], "location3");
-    } else if (latitude > 22.5517 && latitude < 22.5538 && longitude > 114.0944 && longitude < 114.0952) {
+    } else if (latitude > 22.5543 && latitude < 22.5563 && longitude > 114.0932 && longitude < 114.0947) {
         playTrack(tracks["location4"], "location4");
-    } else if (latitude > 22.5515 && latitude < 22.5536 && longitude > 114.0955 && longitude < 114.0962) {
+    } else if (latitude > 22.55221 && latitude < 22.5543 && longitude > 114.0947 && longitude < 114.0960) {
         playTrack(tracks["location5"], "location5");
-    } else if (latitude > 22.5512 && latitude < 22.5534 && longitude > 114.0967 && longitude < 114.0969) {
+    } else if (latitude > 22.5527 && latitude < 22.5520 && longitude > 114.0961 && longitude < 114.0971) {
         playTrack(tracks["location6"], "location6");
     } else {
         console.log("no track assigned for this location.");
