@@ -26,7 +26,7 @@ let isTrackLoading = false;
 
 let bgFadeDuration = 2000; // fade in/out duration in milliseconds
 let bgDynamicVolume = -6;  // volume in dB when no other tracks are playing
-let backgroundVolume = -12;
+let backgroundVolume = -16;
 
 async function userInteracted() {
     if (!window.audioContextStarted) {
