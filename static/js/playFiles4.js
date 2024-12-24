@@ -1,5 +1,7 @@
+// ensure the preloadedAudio object exists for caching audio files
 window.preloadedAudio = window.preloadedAudio || {};
 
+// add an event listener to execute code after the page's DOM has fully loaded
 document.addEventListener('DOMContentLoaded', function () {
     let playButton = document.getElementById('playButton');
     if (playButton) {
@@ -9,30 +11,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.audioContextStarted = window.audioContextStarted || false;
 
-let currentTrack = null;
-let fadeInDuration = 2000; // adjust as needed
-let fadeOutDuration = 2000; // adjust as needed
-let currentlyPlayingLocation = null; // track which location's track is currently playing
+// initialize variables for audio playback
+let currentTrack = null; // current playing audio track
+let fadeInDuration = 2000; // duration for fade-in effect in milliseconds
+let fadeOutDuration = 2000; // duration for fade-out effect in milliseconds
+let currentlyPlayingLocation = null; // tracks the currently playing location's audio
 
+// function to get the audio tracks for the current page and language
 function getTracks() {
-    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-    let currentPage = document.body.dataset.page;
-    return languageData[currentLanguage][currentPage].audio.tracks;
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english'; // get current language
+    let currentPage = document.body.dataset.page; // get current page identifier
+    return languageData[currentLanguage][currentPage].audio.tracks; // return tracks for the page
 }
 
-let isPlaying = false;
-let backgroundTrack = null;
-let isTrackLoading = false;
+// playback state variables
+let isPlaying = false; // whether audio is currently playing
+let backgroundTrack = null; // background track player
+let isTrackLoading = false; // flag to indicate if a track is loading
+let bgFadeDuration = 2000; // fade duration for background audio in milliseconds
+let bgDynamicVolume = -3;  // volume (in dB) when no tracks are playing
+let backgroundVolume = -26; // volume (in dB) when a track is playing
 
-let bgFadeDuration = 2000; // fade in/out duration in milliseconds
-let bgDynamicVolume = -3;  // volume in dB when no other tracks are playing
-let backgroundVolume = -26;
-
+// function to start the audio context after user interaction
 async function userInteracted() {
     if (!window.audioContextStarted) {
         try {
-            await Tone.start();
-            window.audioContextStarted = true;
+            await Tone.start(); // start Tone.js audio context
+            window.audioContextStarted = true; // mark context as started
             console.log('Audio context started.');
         } catch (error) {
             console.error('Failed to start audio context:', error);
@@ -42,7 +47,7 @@ async function userInteracted() {
     }
 }
 
-// Background track
+// function to start the background track
 function startBackgroundTrack() {
     const backgroundFile = "static/audio/group4/group4_background4.mp3";
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function (player) {
@@ -245,15 +250,7 @@ async function handleLocationChange(latitude, longitude) {
 
     let tracks = getTracks();
 
-    // square1: bottom left lat: 22.5511, long: 114.0968, top right lat: 22.5522, long: 114.0975
-    // square2: bottom left lat: 22.5515, long: 114.0951, top right lat: 22.5524, long: 114.0965
-    // square3: bottom left lat: 22.5520, long: 114.0932, top right lat: 22.5528, long: 114.0950
-    // square4: bottom left lat: 22.5532, long: 114.0932, top right lat: 22.5535, long: 114.0949
-    // square5: bottom left lat: 22.5527, long: 114.0949, top right lat: 22.5532, long: 114.0963
-    // square6: bottom left lat: 22.5524, long: 114.0964, top right lat: 22.5530, long: 114.0972
-    
     // adjust the following conditions for actual location-based playback
-
     if (latitude > 22.5520 && latitude < 22.5531 && longitude > 114.0960 && longitude < 114.0972) {
         playTrack(tracks["location1"], "location1");
     } else if (latitude > 22.5520 && latitude < 22.5531 && longitude > 114.0946 && longitude < 114.0960) {

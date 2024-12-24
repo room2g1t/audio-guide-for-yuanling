@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let blueSquares = [];
     let p5Instance;
 
+    // areas of different group's location zones
     const groupSquaresData = {
         group1: [
             { x: -1, y: 323, w: 65, h: 370, number: 1 },
@@ -30,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
             { x: 50, y: 615, w: 615, h: 90, number: 4 },
         ],
         group4: [
-            { x: 235, y: 389, w: 245, h: 125, number: 4 },
-            { x: 237, y: 503, w: 235, h: 185, number: 3 },
-            { x: 656, y: 498, w: 140, h: 185, number: 1 },
-            { x: 454, y: 496, w: 215, h: 190, number: 2 },
-            { x: 466, y: 391, w: 210, h: 120, number: 5 },
-            { x: 658, y: 386, w: 145, h: 125, number: 6 },
+            { x: 226, y: 378, w: 245, h: 125, number: 4 },
+            { x: 227, y: 499, w: 240, h: 200, number: 3 },
+            { x: 464, y: 378, w: 210, h: 130, number: 5 },
+            { x: 461, y: 498, w: 215, h: 200, number: 2 },
+            { x: 662, y: 377, w: 145, h: 130, number: 6 },
+            { x: 667, y: 497, w: 140, h: 200, number: 1 },
         ],
     };
     
@@ -66,11 +67,15 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     };
     
+    // initiate the background track fade duraction, default background track volume and
+    // the background track volume when no other tracks are playing, and
+    // volume of all other tracks
     let bgFadeDuration;
     let bgDynamicVolume;
     let backgroundVolume;
     let tracksVolume;
 
+    // set the current group to group 1 so the page opens to group 1
     let currentGroup = 'group1'; 
     
     // get the container element
@@ -101,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let backgroundVolumeSlider = document.getElementById('backgroundVolume');
     let tracksVolumeSlider = document.getElementById('tracksVolume');
 
-    // create volume display labels
+    // create volume display labels for background and tracks
     let backgroundVolumeDisplay = document.createElement('span');
     backgroundVolumeDisplay.id = 'backgroundVolumeDisplay';
     backgroundVolumeDisplay.style.marginLeft = '10px';
@@ -116,9 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
     backgroundVolumeDisplay.textContent = `${backgroundVolume} dB`;
     tracksVolumeDisplay.textContent = `${tracksVolume} dB`;
 
+    // highlight current group button
     loadSettingsForCurrentGroup();
     highlightSelectedButton(currentGroup);
 
+    // background track volume slider
     backgroundVolumeSlider.addEventListener('input', function () {
         backgroundVolume = Tone.gainToDb(parseFloat(backgroundVolumeSlider.value));
         backgroundVolumeDisplay.textContent = `${backgroundVolume.toFixed(1)} dB`;
@@ -131,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     
+    // all other tracks volume slider
     tracksVolumeSlider.addEventListener('input', function () {
         tracksVolume = Tone.gainToDb(parseFloat(tracksVolumeSlider.value));
         tracksVolumeDisplay.textContent = `${tracksVolume.toFixed(1)} dB`;
@@ -142,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
         handleAudioPlayback();
     });
     
+    // add groups
     document.getElementById('group1Button').addEventListener('click', function() {
         switchGroup('group1');
     });
@@ -155,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switchGroup('group4');
     });
     
+    // function for switching groups
     function switchGroup(groupName) {
         currentGroup = groupName;
     
@@ -168,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         p5Instance.updateOverlayImage(imagePath);
     }
     
-    
+    // save presets for different groups
     function loadSquaresForCurrentGroup() {
         let squaresData = groupSquaresData[currentGroup];
     
@@ -179,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sqData.y,
                 sqData.w,
                 sqData.h,
-                p5Instance.color(255, 0, 0, 0),
+                p5Instance.color(255, 0, 0, 100),
                 sqData.number
             ));
         } else {
@@ -218,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // assign tracks for individual groups
     function updateTracksForCurrentGroup() {
         // stop all playing tracks
         Object.values(trackPlayers).forEach(player => {
@@ -240,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     
-    
+// start playing background track
 function startBackgroundTrack() {
     if (backgroundTrack) {
         return;
@@ -376,6 +387,7 @@ function getWeight(square, dotX, dotY) {
     }
 }
 
+    // create draggable squares to set the zones for testing page 
     class DraggableSquare {
         constructor(x, y, w, h, col, number) {
             this.x = x;
@@ -393,8 +405,9 @@ function getWeight(square, dotX, dotY) {
             p5Instance.rect(this.x, this.y, this.w, this.h);
         }
 
+        // each square has a number
         showNumber() {
-            p5Instance.fill(255, 0, 0, 0);
+            p5Instance.fill(255, 0, 0, 100);
             p5Instance.textSize(this.w * 0.8);
             p5Instance.textAlign(p5Instance.CENTER, p5Instance.CENTER);
             p5Instance.textFont('Arial');
@@ -408,6 +421,7 @@ function getWeight(square, dotX, dotY) {
             }
         }
 
+        // press to drag the squares
         pressed(mx, my) {
             if (mx > this.x && mx < this.x + this.w && my > this.y && my < this.y + this.h) {
                 this.dragging = true;
@@ -426,7 +440,6 @@ function getWeight(square, dotX, dotY) {
     let sketch = function (p) {
         p5Instance = p;
 
-        let canvasSize;
         let dotSize = 30;
         let moveW = false, moveA = false, moveS = false, moveD = false;
         let overlayImage;
@@ -488,6 +501,7 @@ function getWeight(square, dotX, dotY) {
                 number: square.number
             }));
         
+            // prints out the current group's squares to update the user page
             console.log(`${currentGroup}: [`);
             squaresData.forEach(data => {
                 console.log(`    { x: ${data.x}, y: ${data.y}, w: ${data.w}, h: ${data.h}, number: ${data.number} },`);
@@ -518,7 +532,7 @@ function getWeight(square, dotX, dotY) {
             // display the formatted coordinates
             latLonDisplay.innerHTML = `${formattedLatitude}, ${formattedLongitude}`;
 
-
+            // one step each time
             const step = 1;
             if (moveW) {
                 dotY = p.max(dotY - step, dotSize / 2);
@@ -540,6 +554,7 @@ function getWeight(square, dotX, dotY) {
                 square.showNumber();
             });
 
+            // set up the red dot
             p.fill('#cb3431');
             p.noStroke();
             p.ellipse(dotX, dotY, dotSize, dotSize);
@@ -566,6 +581,7 @@ function getWeight(square, dotX, dotY) {
             p.saveBlueSquares();
         };
 
+        // use 'wasd' key to control the red dot to move around
         p.keyPressed = function () {
             if (p.key === 'w' || p.key === 'W') {
                 moveW = true;
@@ -637,6 +653,7 @@ function getWeight(square, dotX, dotY) {
             }
         };
 
+        // when press the '+' button, add a new square on the screen
         p.addSquare = function() {
             let maxNumber = blueSquares.reduce((max, square) => Math.max(max, square.number), 0);
             let newNumber = maxNumber + 1;
@@ -644,6 +661,7 @@ function getWeight(square, dotX, dotY) {
             p.saveBlueSquares(); 
         };
         
+        // save the squares created into the cache
         p.saveBlueSquares = function() {
             let squaresData = blueSquares.map(square => ({
                 x: square.x,
@@ -655,6 +673,7 @@ function getWeight(square, dotX, dotY) {
             localStorage.setItem(`blueSquares_${currentGroup}`, JSON.stringify(squaresData));
         };
 
+        // compute bilinear interpolation parameters from control points
         function computeBilinearParameters(points) {
             let N = points.length;
             if (N < 4) {
@@ -696,6 +715,7 @@ function getWeight(square, dotX, dotY) {
             return { paramsLat, paramsLon };
         }
 
+        // function to map image coordinates (x, y) to geographical coordinates (latitude, longitude)
         function imageToGeo(x, y) {
             let a0 = paramsLat[0], a1 = paramsLat[1], a2 = paramsLat[2], a3 = paramsLat[3];
             let b0 = paramsLon[0], b1 = paramsLon[1], b2 = paramsLon[2], b3 = paramsLon[3];

@@ -1,104 +1,104 @@
-// Initialize global variables
-window.preloadedAudio = window.preloadedAudio || {};
-window.preloadingComplete = window.preloadingComplete || false;
+// initialize global variables for preloaded audio and preloading status
+window.preloadedAudio = window.preloadedAudio || {}; // object to store preloaded audio players
+window.preloadingComplete = window.preloadingComplete || false; // flag to indicate if preloading is complete
 
-// Audio files organized by group
+// define audio files grouped by group number
 const audioFilesByGroup = {
     1: [
-        // Group 1 files
-        // Chinese
+        // group 1 files
+        // chinese
         "static/audio/group1/chinese/group1_track1.mp3",
         "static/audio/group1/chinese/group1_track2.mp3",
         "static/audio/group1/chinese/group1_track3.mp3",
         "static/audio/group1/chinese/group1_track4.mp3",
         "static/audio/group1/chinese/group1_track5.mp3",
         "static/audio/group1/chinese/group1_track6.mp3",
-        // English
+        // english
         "static/audio/group1/english/group1_track1.mp3",
         "static/audio/group1/english/group1_track2.mp3",
         "static/audio/group1/english/group1_track3.mp3",
         "static/audio/group1/english/group1_track4.mp3",
         "static/audio/group1/english/group1_track5.mp3",
         "static/audio/group1/english/group1_track6.mp3",
-        // Background track
+        // background track
         "static/audio/group1/group1_background1.mp3",
     ],
     2: [
-        // Group 2 files
-        // Chinese
+        // group 2 files
+        // chinese
         "static/audio/group2/chinese/group2_track1.mp3",
         "static/audio/group2/chinese/group2_track2.mp3",
         "static/audio/group2/chinese/group2_track3.mp3",
         "static/audio/group2/chinese/group2_track4.mp3",
-        // English
+        // english
         "static/audio/group2/english/group2_track1.mp3",
         "static/audio/group2/english/group2_track2.mp3",
         "static/audio/group2/english/group2_track3.mp3",
         "static/audio/group2/english/group2_track4.mp3",
-        // Background track
+        // background track
         "static/audio/group2/group2_background2.mp3",
     ],
     3: [
-        // Group 3 files
-        // Chinese
+        // group 3 files
+        // chinese
         "static/audio/group3/chinese/group3_track1.mp3",
         "static/audio/group3/chinese/group3_track2.mp3",
         "static/audio/group3/chinese/group3_track3.mp3",
         "static/audio/group3/chinese/group3_track4.mp3",
-        // English
+        // english
         "static/audio/group3/english/group3_track1.mp3",
         "static/audio/group3/english/group3_track2.mp3",
         "static/audio/group3/english/group3_track3.mp3",
         "static/audio/group3/english/group3_track4.mp3",
-        // Background track
+        // background track
         "static/audio/group3/group3_background3.mp3",
     ],
     4: [
-        // Group 4 files
-        // Chinese
+        // group 4 files
+        // chinese
         "static/audio/group4/chinese/group4_track1.mp3",
         "static/audio/group4/chinese/group4_track2.mp3",
         "static/audio/group4/chinese/group4_track3.mp3",
         "static/audio/group4/chinese/group4_track4.mp3",
         "static/audio/group4/chinese/group4_track5.mp3",
         "static/audio/group4/chinese/group4_track6.mp3",
-        // English
+        // english
         "static/audio/group4/english/group4_track1.mp3",
         "static/audio/group4/english/group4_track2.mp3",
         "static/audio/group4/english/group4_track3.mp3",
         "static/audio/group4/english/group4_track4.mp3",
         "static/audio/group4/english/group4_track5.mp3",
         "static/audio/group4/english/group4_track6.mp3",
-        // Background track
+        // background track
         "static/audio/group4/group4_background4.mp3",
     ]
 };
 
+// function to toggle visibility of group buttons for preloading
 function toggleGroupButtons() {
     const groupButtonsContainer = document.getElementById('groupButtonsContainer');
     if (groupButtonsContainer) {
         if (groupButtonsContainer.style.display === 'none' || groupButtonsContainer.style.display === '') {
-            // Show the group buttons
+            // show the group buttons
             groupButtonsContainer.style.display = 'flex';
 
-            // Create group buttons if they don't exist
+            // create group buttons if not already present
             if (groupButtonsContainer.children.length === 0) {
-                // Create buttons for groups 1-4
-                for (let i = 1; i <= 4; i++) {
-                    const groupButton = document.createElement('button');
-                    groupButton.innerText = `${i}`;
-                    groupButton.id = `groupButton${i}`;
-                    groupButton.className = 'group-button'; // Add CSS class
+                for (let i = 1; i <= 4; i++) { // loop through group numbers
+                    const groupButton = document.createElement('button'); // create a button for each group
+                    groupButton.innerText = `${i}`; // set button text to group number
+                    groupButton.id = `groupButton${i}`; // unique id for each button
+                    groupButton.className = 'group-button'; // add a CSS class
                     groupButton.addEventListener('click', function () {
-                        preloadGroup(i);
+                        preloadGroup(i); // preload the group's audio files when clicked
                     });
-                    groupButtonsContainer.appendChild(groupButton);
+                    groupButtonsContainer.appendChild(groupButton); // add the button to the container
                 }
             }
         } else {
-            // Hide the group buttons
+            // hide the group buttons
             groupButtonsContainer.style.display = 'none';
-            // Clear the cache and dispose of preloaded players
+            // clear the cache and dispose of preloaded players
             clearPreloadedAudio();
             window.preloadingComplete = false;
             console.log('Cache cleared.');
@@ -106,91 +106,93 @@ function toggleGroupButtons() {
     }
 }
 
+// function to preload audio files for a specific group
 function preloadGroup(groupNumber) {
-    const audioFiles = audioFilesByGroup[groupNumber];
+    const audioFiles = audioFilesByGroup[groupNumber]; // get the audio files for the specified group
+    let loadedCount = 0; // counter for loaded files
+    const totalFiles = audioFiles.length; // total number of files in the group
 
-    let loadedCount = 0;
-    const totalFiles = audioFiles.length;
-
-    // Change group button text to indicate loading
+    // update group button text to indicate loading
     const groupButton = document.getElementById(`groupButton${groupNumber}`);
     if (groupButton) {
-        groupButton.disabled = true; // Disable the button to prevent multiple clicks
-        groupButton.innerText = `...`;
+        groupButton.disabled = true; // disable button to prevent multiple clicks
+        groupButton.innerText = `...`; // indicate loading
     }
 
     audioFiles.forEach(file => {
         if (!window.preloadedAudio[file]) {
-            // Preload using Tone.Player
+            // preload the audio file using Tone.Player
             const player = new Tone.Player({
-                url: file,
-                autostart: false,
-                loop: file.includes('background'),
+                url: file, // file URL
+                autostart: false, // do not start playing automatically
+                loop: file.includes('background'), // loop if it's a background track
                 onload: () => {
-                    loadedCount++;
+                    loadedCount++; // increment loaded counter
                     console.log(`Loaded ${file}`);
-                    player.isPreloaded = true; // Mark this player as preloaded
-                    player.toDestination();
-                    player.connected = true; // Mark as connected
-                    window.preloadedAudio[file] = player;
-                    checkIfAllFilesLoaded();
+                    player.isPreloaded = true; // mark player as preloaded
+                    player.toDestination(); // connect to the audio destination
+                    player.connected = true; // mark as connected
+                    window.preloadedAudio[file] = player; // store the player
+                    checkIfAllFilesLoaded(); // check if all files are loaded
                 },
                 onerror: (error) => {
-                    loadedCount++;
-                    console.error(`Error loading ${file}:`, error);
-                    // Mark the file as failed to load
-                    window.preloadedAudio[file] = null;
-                    checkIfAllFilesLoaded();
+                    loadedCount++; // increment loaded counter
+                    console.error(`Error loading ${file}:`, error); // log error
+                    window.preloadedAudio[file] = null; // mark file as failed to load
+                    checkIfAllFilesLoaded(); // check if all files are loaded
                 }
             });
         } else {
-            // If already preloaded, increment loadedCount
+            // if file is already preloaded, increment loaded counter
             loadedCount++;
-            checkIfAllFilesLoaded();
+            checkIfAllFilesLoaded(); // check if all files are loaded
         }
     });
 
     function checkIfAllFilesLoaded() {
-        // Update user feedback with progress
+        // update user feedback with progress
         if (groupButton) {
             groupButton.innerText = `${loadedCount}/${totalFiles}`;
         }
 
         if (loadedCount === totalFiles) {
-            window.preloadingComplete = true; // Mark as complete
+            window.preloadingComplete = true; // mark as complete
             console.log(`All files for group ${groupNumber} have been preloaded.`);
 
-            // Update the button to indicate completion
+            // update the button to indicate completion
             if (groupButton) {
                 groupButton.innerText = `✓`;
                 groupButton.disabled = true;
-                groupButton.classList.add('preloaded'); // Optional: Add a class to indicate completion
+                groupButton.classList.add('preloaded'); 
             }
         }
     }
 }
 
+
+// function to clear all preloaded audio players
 function clearPreloadedAudio() {
-    // Dispose of all preloaded players
     for (let file in window.preloadedAudio) {
-        const player = window.preloadedAudio[file];
+        const player = window.preloadedAudio[file]; // get the player
         if (player && typeof player.dispose === 'function') {
-            player.dispose();
+            player.dispose(); // dispose of the player
             console.log(`Disposed player for ${file}`);
         }
     }
-    window.preloadedAudio = {};
+    window.preloadedAudio = {}; // reset the preloaded audio object
 }
 
-// Attach event listener to preload button
+// set up event listeners on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
-    const preloadButton = document.getElementById('preloadIcon');
+    const preloadButton = document.getElementById('preloadIcon'); // get the preload button
     if (preloadButton) {
+        // attach click event to toggle group buttons
         preloadButton.addEventListener('click', toggleGroupButtons);
     } else {
         console.error("Preload button not found.");
     }
-    // Initially hide group buttons
+
+    // initially hide group buttons container
     const groupButtonsContainer = document.getElementById('groupButtonsContainer');
     if (groupButtonsContainer) {
         groupButtonsContainer.style.display = 'none';

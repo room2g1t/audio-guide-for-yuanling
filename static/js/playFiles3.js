@@ -1,5 +1,7 @@
+// ensure the preloadedAudio object exists for caching audio files
 window.preloadedAudio = window.preloadedAudio || {};
 
+// add an event listener to execute code after the page's DOM has fully loaded
 document.addEventListener('DOMContentLoaded', function () {
     let playButton = document.getElementById('playButton');
     if (playButton) {
@@ -9,30 +11,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.audioContextStarted = window.audioContextStarted || false;
 
-let currentTrack = null;
-let fadeInDuration = 2000; // adjust as needed
-let fadeOutDuration = 2000; // adjust as needed
-let currentlyPlayingLocation = null; // track which location's track is currently playing
+// initialize variables for audio playback
+let currentTrack = null; // current playing audio track
+let fadeInDuration = 2000; // duration for fade-in effect in milliseconds
+let fadeOutDuration = 2000; // duration for fade-out effect in milliseconds
+let currentlyPlayingLocation = null; // tracks the currently playing location's audio
 
+// function to get the audio tracks for the current page and language
 function getTracks() {
-    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-    let currentPage = document.body.dataset.page;
-    return languageData[currentLanguage][currentPage].audio.tracks;
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english'; // get current language
+    let currentPage = document.body.dataset.page; // get current page identifier
+    return languageData[currentLanguage][currentPage].audio.tracks; // return tracks for the page
 }
 
-let isPlaying = false;
-let backgroundTrack = null;
-let isTrackLoading = false;
+// playback state variables
+let isPlaying = false; // whether audio is currently playing
+let backgroundTrack = null; // background track player
+let isTrackLoading = false; // flag to indicate if a track is loading
+let bgFadeDuration = 2000; // fade duration for background audio in milliseconds
+let bgDynamicVolume = -5;  // volume (in dB) when no tracks are playing
+let backgroundVolume = -64; // volume (in dB) when a track is playing
 
-let bgFadeDuration = 2000; // fade in/out duration in milliseconds
-let bgDynamicVolume = -4;  // volume in dB when no other tracks are playing
-let backgroundVolume = -64;
-
+// function to start the audio context after user interaction
 async function userInteracted() {
     if (!window.audioContextStarted) {
         try {
-            await Tone.start();
-            window.audioContextStarted = true;
+            await Tone.start(); // start Tone.js audio context
+            window.audioContextStarted = true; // mark context as started
             console.log('Audio context started.');
         } catch (error) {
             console.error('Failed to start audio context:', error);
@@ -42,13 +47,13 @@ async function userInteracted() {
     }
 }
 
-// Background track
+// function to start the background track
 function startBackgroundTrack() {
     const backgroundFile = "static/audio/group3/group3_background3.mp3";
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function (player) {
         backgroundTrack = player;
         console.log("Background track started.");
-        updateBackgroundTrackVolume(); // adjust volume based on currentTrack
+        updateBackgroundTrackVolume(); // adjust volume based on playback state
     }, bgDynamicVolume); // set initial volume
 }
 
@@ -231,6 +236,7 @@ function updateBackgroundTrackVolume() {
     }
 }
 
+// function to handle playback based on location
 async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);
 
@@ -244,10 +250,6 @@ async function handleLocationChange(latitude, longitude) {
     }
 
     let tracks = getTracks();
-    // square1: bottom left lat: 22.5519, long: 114.0953, top right lat: 22.5536, long: 114.0961
-    // square2: bottom left lat: 22.5533, long: 114.0931, top right lat: 22.5539, long: 114.0950
-    // square3: bottom left lat: 22.5527, long: 114.0918, top right lat: 22.5544, long: 114.0932
-    // square4: bottom left lat: 22.5523, long: 114.0918, top right lat: 22.5516, long: 114.0966
 
     // adjust the following conditions for actual location-based playback
     if (latitude > 22.5519 && latitude < 22.5536 && longitude > 114.0953 && longitude < 114.0961) {

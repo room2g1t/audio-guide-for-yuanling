@@ -1,17 +1,18 @@
 const languageData = {
+    // english language data
     english: {
         index:{
             texts:{
-                title: "Audio Guide for Yuanling",
-                preloadText: "Preload",
-                preloadImage: "static/images/preload.png",
-                testButtonText: "Test",
-                groups: [
+                title: "Audio Guide for Yuanling", // title of the app
+                preloadText: "Preload", // text for preload button
+                preloadImage: "static/images/preload.png", // preload button image path
+                testButtonText: "Test", // text for the test button
+                groups: [ // group-specific data for the index page
                     { 
-                        name: "Melodic Encounters at Yuanling", 
-                        image: "static/images/group1/group1_image1.png",
-                        students:"Garnet, Christine, Coral",
-                        description: "Universal Music, Urban Vibrancy, Cultural Inheritance", 
+                        name: "Melodic Encounters at Yuanling", // group name
+                        image: "static/images/group1/group1_image1.png", // group image
+                        students:"Garnet, Christine, Coral", // group students
+                        description: "Universal Music, Urban Vibrancy, Cultural Inheritance", // description of students' project
                     },
                     { 
                         name: "Young Shenzhen", 
@@ -37,15 +38,15 @@ const languageData = {
         },
         group1: {
             texts: {
-                title: "Melodic Encounters at Yuanling",
-                textDisplay1: "Garnet",
+                title: "Melodic Encounters at Yuanling", // title for group1
+                textDisplay1: "Garnet", // students name display
                 textDisplay2: "Christine",
                 textDisplay3: "Coral",
-                locationInfo: "Location information is unavailable.",
-                footerText: "SUSTech School fo Design, DS345, 2024",
+                locationInfo: "Location information is unavailable.", // fallback location info
+                footerText: "SUSTech School fo Design, DS345, 2024", // footer text
                 playText:{
-                    play: "Play",
-                    pause: "Pause"
+                    play: "Play", // play button text
+                    pause: "Pause" // pause button text
                 }
             },
             audio: {
@@ -144,6 +145,7 @@ const languageData = {
             }
         },
     },
+    // chinese language data
     chinese: {
         index:{
             texts:{
@@ -291,11 +293,12 @@ const languageData = {
     }
 };
 
+// initialize the current language from local storage or default to english
 let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-let currentPage = document.body.dataset.page; // get current page
+// determine the current page based on the dataset attribute of the body element
+let currentPage = document.body.dataset.page; 
 
 // update in updateTextAndAudio function
-
 function updateTextAndAudio() {
     // check if currentPage is defined in languageData
     const pageData = languageData[currentLanguage][currentPage];
@@ -308,12 +311,13 @@ function updateTextAndAudio() {
 
     document.title = texts.title; // update the page title
 
-    // update group-specific text displays
+    // update group-specific text elements
     const textDisplay1 = document.getElementById('textDisplay1');
     const textDisplay2 = document.getElementById('textDisplay2');
     const textDisplay3 = document.getElementById('textDisplay3');
     const locationInfo = document.getElementById('locationInfo');
 
+    // dynamically update navigation links and content
     if (textDisplay1) textDisplay1.textContent = texts.textDisplay1;
     if (textDisplay2) textDisplay2.textContent = texts.textDisplay2;
     if (textDisplay3) textDisplay3.textContent = texts.textDisplay3;
@@ -419,7 +423,7 @@ function updateTextAndAudio() {
     }
 }
 
-
+// set up the page once the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     updateTextAndAudio(); // update the UI based on the current language and page
 

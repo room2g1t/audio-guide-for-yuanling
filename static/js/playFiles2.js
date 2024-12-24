@@ -1,5 +1,7 @@
+// ensure the preloadedAudio object exists for caching audio files
 window.preloadedAudio = window.preloadedAudio || {};
 
+// add an event listener to execute code after the page's DOM has fully loaded
 document.addEventListener('DOMContentLoaded', function () {
     let playButton = document.getElementById('playButton');
     if (playButton) {
@@ -9,30 +11,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.audioContextStarted = window.audioContextStarted || false;
 
-let currentTrack = null;
-let fadeInDuration = 2000; // adjust as needed
-let fadeOutDuration = 2000; // adjust as needed
-let currentlyPlayingLocation = null; // track which location's track is currently playing
+// initialize variables for audio playback
+let currentTrack = null; // current playing audio track
+let fadeInDuration = 2000; // duration for fade-in effect in milliseconds
+let fadeOutDuration = 2000; // duration for fade-out effect in milliseconds
+let currentlyPlayingLocation = null; // tracks the currently playing location's audio
 
+// function to get the audio tracks for the current page and language
 function getTracks() {
-    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-    let currentPage = document.body.dataset.page;
-    return languageData[currentLanguage][currentPage].audio.tracks;
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english'; // get current language
+    let currentPage = document.body.dataset.page; // get current page identifier
+    return languageData[currentLanguage][currentPage].audio.tracks; // return tracks for the page
 }
 
-let isPlaying = false;
-let backgroundTrack = null;
-let isTrackLoading = false;
+// playback state variables
+let isPlaying = false; // whether audio is currently playing
+let backgroundTrack = null; // background track player
+let isTrackLoading = false; // flag to indicate if a track is loading
+let bgFadeDuration = 2000; // fade duration for background audio in milliseconds
+let bgDynamicVolume = -5;  // volume (in dB) when no tracks are playing
+let backgroundVolume = -64; // volume (in dB) when a track is playing
 
-let bgFadeDuration = 2000; // fade in/out duration in milliseconds
-let bgDynamicVolume = -5;  // volume in dB when no other tracks are playing
-let backgroundVolume = -64;
-
+// function to start the audio context after user interaction
 async function userInteracted() {
     if (!window.audioContextStarted) {
         try {
-            await Tone.start();
-            window.audioContextStarted = true;
+            await Tone.start(); // start Tone.js audio context
+            window.audioContextStarted = true; // mark context as started
             console.log('Audio context started.');
         } catch (error) {
             console.error('Failed to start audio context:', error);
@@ -42,51 +47,50 @@ async function userInteracted() {
     }
 }
 
-// Background track
+// function to start the background track
 function startBackgroundTrack() {
-    const backgroundFile = "static/audio/group2/group2_background2.mp3";
+    const backgroundFile = "static/audio/group1/group1_background1.mp3"; // path to background audio
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function (player) {
         backgroundTrack = player;
         console.log("Background track started.");
-        updateBackgroundTrackVolume(); // adjust volume based on currentTrack
+        updateBackgroundTrackVolume(); // adjust volume based on playback state
     }, bgDynamicVolume); // set initial volume
 }
 
+// function to toggle playback of audio
 async function togglePlayback() {
-    let playButton = document.getElementById('playButton');
-    let playTextElement = document.querySelector('.play-text');
-    let currentLanguage = localStorage.getItem('appLanguage') || 'english';
-    let currentPage = document.body.dataset.page;
-    let texts = languageData[currentLanguage][currentPage].texts;
+    let playButton = document.getElementById('playButton'); // play button element
+    let playTextElement = document.querySelector('.play-text'); // text element for play/pause state
+    let currentLanguage = localStorage.getItem('appLanguage') || 'english'; // current language
+    let currentPage = document.body.dataset.page; // current page identifier
+    let texts = languageData[currentLanguage][currentPage].texts; // text data for the page
 
     if (isPlaying) {
-        stopAllPlayback(true);
-        playButton.src = 'static/images/playButton.png';
-        isPlaying = false;
+        stopAllPlayback(true); // stop playback
+        playButton.src = 'static/images/playButton.png'; // update play button image
+        isPlaying = false; // update playback state
     } else {
-        isPlaying = true;
-        playButton.src = 'static/images/pauseButton.png';
+        isPlaying = true; // update playback state
+        playButton.src = 'static/images/pauseButton.png'; // update pause button image
 
-        // ensure the Tone.js audio context is started
-        await userInteracted();
+        await userInteracted(); // ensure audio context is started
+        startBackgroundTrack(); // start the background audio
 
-        // start the background track
-        startBackgroundTrack();
-
-        // get current location and handle location change
+        // check current location and handle playback based on location
         if (typeof window.latitude !== 'undefined' && typeof window.longitude !== 'undefined') {
             handleLocationChange(window.latitude, window.longitude);
         } else {
+             // request location from the browser
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function (position) {
-                        let latitude = position.coords.latitude;
-                        let longitude = position.coords.longitude;
+                        let latitude = position.coords.latitude; // get latitude
+                        let longitude = position.coords.longitude; // get longitude
 
-                        window.latitude = latitude;
-                        window.longitude = longitude;
+                        window.latitude = latitude; // save latitude globally
+                        window.longitude = longitude; // save longitude globally
 
-                        handleLocationChange(latitude, longitude);
+                        handleLocationChange(latitude, longitude); // handle location change
                     },
                     function (error) {
                         console.error("Error getting current position: ", error);
@@ -98,6 +102,8 @@ async function togglePlayback() {
             }
         }
     }
+
+    // update the play/pause text based on playback state
     if (playTextElement) {
         const playText = texts.playText;
         if (playText) {
@@ -106,6 +112,7 @@ async function togglePlayback() {
     }
 }
 
+// function to stop all audio playback
 function stopAllPlayback(userStopped = false) {
     if (currentTrack) {
         currentTrack.stop(); // stops with fade out applied
@@ -231,6 +238,7 @@ function updateBackgroundTrackVolume() {
     }
 }
 
+// function to handle playback based on location
 async function handleLocationChange(latitude, longitude) {
     console.log(`handleLocationChange called with latitude: ${latitude}, longitude: ${longitude}`);
 
@@ -244,11 +252,6 @@ async function handleLocationChange(latitude, longitude) {
     }
 
     let tracks = getTracks();
-
-    // square1: bottom left lat: 22.5523, long: 114.0950, top right lat: 22.5530, long: 114.0963
-    // square2: bottom left lat: 22.5527, long: 114.0933, top right lat: 22.5533, long: 114.0947
-    // square3: bottom left lat: 22.5516, long: 114.0934, top right lat: 22.5522, long: 114.0949
-    // square4: bottom left lat: 22.5511, long: 114.0951, top right lat: 22.5518, long: 114.0965
 
     // adjust the following conditions for actual location-based playback
     if (latitude > 22.5521 && latitude < 22.5542 && longitude > 114.0950 && longitude < 114.0959) {
