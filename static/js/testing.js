@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sqData.y,
                 sqData.w,
                 sqData.h,
-                p5Instance.color(255, 0, 0, 100),
+                p5Instance.color(255, 0, 0, 0),
                 sqData.number
             ));
         } else {
