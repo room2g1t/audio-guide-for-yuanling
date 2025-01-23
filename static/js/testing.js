@@ -551,7 +551,7 @@ function getWeight(square, dotX, dotY) {
             blueSquares.forEach(square => {
                 square.update(p.mouseX, p.mouseY);
                 square.show();
-                square.showNumber();
+                // square.showNumber();
             });
 
             // set up the red dot
