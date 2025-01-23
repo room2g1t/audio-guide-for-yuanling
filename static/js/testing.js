@@ -407,7 +407,7 @@ function getWeight(square, dotX, dotY) {
 
         // each square has a number
         showNumber() {
-            p5Instance.fill(255, 0, 0, 100);
+            p5Instance.fill(255, 0, 0, 0);
             p5Instance.textSize(this.w * 0.8);
             p5Instance.textAlign(p5Instance.CENTER, p5Instance.CENTER);
             p5Instance.textFont('Arial');
