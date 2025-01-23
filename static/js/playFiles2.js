@@ -49,7 +49,7 @@ async function userInteracted() {
 
 // function to start the background track
 function startBackgroundTrack() {
-    const backgroundFile = "static/audio/group1/group1_background1.mp3"; // path to background audio
+    const backgroundFile = "static/audio/group2/group2_background.mp3"; // path to background audio
     loadAndPlayAudio(backgroundFile, true, bgFadeDuration, function (player) {
         backgroundTrack = player;
         console.log("Background track started.");

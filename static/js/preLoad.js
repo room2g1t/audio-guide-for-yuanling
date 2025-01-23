@@ -21,7 +21,7 @@ const audioFilesByGroup = {
         "static/audio/group1/english/group1_track5.mp3",
         "static/audio/group1/english/group1_track6.mp3",
         // background track
-        "static/audio/group1/group1_background1.mp3",
+        "static/audio/group1/group1_background.mp3",
     ],
     2: [
         // group 2 files
@@ -36,7 +36,7 @@ const audioFilesByGroup = {
         "static/audio/group2/english/group2_track3.mp3",
         "static/audio/group2/english/group2_track4.mp3",
         // background track
-        "static/audio/group2/group2_background2.mp3",
+        "static/audio/group2/group2_background.mp3",
     ],
     3: [
         // group 3 files
@@ -51,7 +51,7 @@ const audioFilesByGroup = {
         "static/audio/group3/english/group3_track3.mp3",
         "static/audio/group3/english/group3_track4.mp3",
         // background track
-        "static/audio/group3/group3_background3.mp3",
+        "static/audio/group3/group3_background.mp3",
     ],
     4: [
         // group 4 files
@@ -70,7 +70,7 @@ const audioFilesByGroup = {
         "static/audio/group4/english/group4_track5.mp3",
         "static/audio/group4/english/group4_track6.mp3",
         // background track
-        "static/audio/group4/group4_background4.mp3",
+        "static/audio/group4/group4_background.mp3",
     ]
 };
 
